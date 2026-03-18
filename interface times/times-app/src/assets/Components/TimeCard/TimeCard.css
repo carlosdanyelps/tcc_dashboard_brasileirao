@@ -1,0 +1,21 @@
+.time-card {
+    background-color: white;
+    display: flex;
+    height: 7em;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.288);
+}
+
+.time-icon {
+    background-color: rgba(136, 136, 136, 0.103);
+    width: 30%;
+}
+
+.time-icon img {
+    width: 4em;
+}
+
+.time-info {
+    width: 70%;
+    align-content: center;
+    padding: 1em;
+}
