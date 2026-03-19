@@ -7,14 +7,15 @@ const Main = () => {
   
     return (
       <div className="main">
-        <div className='graphic-session'>
-            <p>Hello</p>
-        </div>
-        <div className='aside-content'>
-            <TimeList />
-        </div>
-
         <div className="main-content">
+          <div className='graphic-session'>
+              <p>Hello</p>
+          </div>
+          <div className='aside-content'>
+              <TimeList />
+          </div>
+        </div>
+        <div className="table">
         </div>
       </div>
     );

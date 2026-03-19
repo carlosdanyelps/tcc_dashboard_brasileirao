@@ -16,16 +16,19 @@
 
 
 .aside-content {
+    display: flex;
+    flex: 1;
+    /* flex-direction: column; */
+    height: 50%;
     width: 40%;
     background-color: rgba(243, 243, 243, 0.514);
     /* border: 1px solid #9f9f9f73; */
-    height: 0%;
 }
 
 .main-content {
     /* background-color: rgba(243, 243, 243, 0.418); */
     /* border: 1px solid #9f9f9f73; */
-    height: 100%;
+    height: 50%;
     width: 60%;
 }
 
