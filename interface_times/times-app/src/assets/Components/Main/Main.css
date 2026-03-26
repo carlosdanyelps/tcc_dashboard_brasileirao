@@ -20,7 +20,7 @@
     flex: 1;
     /* flex-direction: column; */
     height: 50%;
-    width: 40%;
+    width: 100%;
     background-color: rgba(243, 243, 243, 0.514);
     /* border: 1px solid #9f9f9f73; */
 }
@@ -29,11 +29,11 @@
     /* background-color: rgba(243, 243, 243, 0.418); */
     /* border: 1px solid #9f9f9f73; */
     height: 50%;
-    width: 60%;
+    width: 50%;
 }
 
 .graphic-session {
-    background-color: brown;
+    background-color: rgb(235, 235, 235);
     height: 100%;
     width: 100%;
 }

@@ -1,13 +1,14 @@
 .time-card {
     background-color: white;
     display: flex;
-    height: 7em;
+    height: 10em;
     border-bottom: 2px solid rgba(0, 0, 0, 0.288);
 }
 
 .time-icon {
     background-color: rgba(136, 136, 136, 0.103);
-    width: 30%;
+    width: 10em;
+    
 }
 
 .time-icon img {
@@ -15,7 +16,7 @@
 }
 
 .time-info {
-    width: 70%;
+    width: 85%;
     align-content: center;
     padding: 1em;
 }
