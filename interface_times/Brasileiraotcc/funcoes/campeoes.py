@@ -15,7 +15,13 @@ df = adicionar_ids(df)
 # TRATAR DATAS
 # =========================
 df['data'] = pd.to_datetime(df['data'], dayfirst=True, errors='coerce')
-df['ano'] = df['data'].dt.year  
+df['ano'] = df['data'].dt.year
+
+# URL base para escudo de cada time
+url_escudo_base = 'http://localhost:5000/escudo/'
+
+df['escudo_m'] = url_escudo_base + df['mandante_id'].astype(str)
+df['escudo_v'] = url_escudo_base + df['visitante_id'].astype(str)
 
 # =========================
 # REMOVER DUPLICATAS (ESSENCIAL)
@@ -48,14 +54,14 @@ df['pontos_v'] = (
 # =========================
 # MANDANTES
 # =========================
-mandantes = df[['ano', 'mandante', 'mandante_id', 'pontos_m', 'mandante_Placar', 'visitante_Placar']].copy()
-mandantes.columns = ['ano', 'time', 'id', 'pontos', 'gols_pro', 'gols_tomados']
+mandantes = df[['ano', 'mandante', 'mandante_id', 'pontos_m', 'mandante_Placar', 'visitante_Placar', 'escudo_m']].copy()
+mandantes.columns = ['ano', 'time', 'id', 'pontos', 'gols_pro', 'gols_tomados', 'escudo']
 
 # =========================
 # VISITANTES
 # =========================
-visitantes = df[['ano', 'visitante', 'visitante_id', 'pontos_v', 'visitante_Placar', 'mandante_Placar']].copy()
-visitantes.columns = ['ano', 'time', 'id', 'pontos', 'gols_pro', 'gols_tomados']
+visitantes = df[['ano', 'visitante', 'visitante_id', 'pontos_v', 'visitante_Placar', 'mandante_Placar', 'escudo_v']].copy()
+visitantes.columns = ['ano', 'time', 'id', 'pontos', 'gols_pro', 'gols_tomados', 'escudo']
 
 # =========================
 # JUNTAR
@@ -65,11 +71,11 @@ tabela_df = pd.concat([mandantes, visitantes])
 # =========================
 # AGRUPAR
 # =========================
-tabela_final = tabela_df.groupby(['ano', 'time', 'id']).agg({
+tabela_final = tabela_df.groupby(['ano', 'time', 'id', 'escudo'], as_index=False).agg({
     'pontos': 'sum',
     'gols_pro': 'sum',
     'gols_tomados': 'sum'
-}).reset_index()
+})
 
 # =========================
 # SALDO
@@ -79,6 +85,8 @@ tabela_final['saldo'] = tabela_final['gols_pro'] - tabela_final['gols_tomados']
 # =========================
 # FUNÇÃO FINAL
 # =========================
+
+
 def tabela_ano(ano):
     tabela = tabela_final[tabela_final['ano'] == ano].copy()
     

@@ -17,14 +17,94 @@ df['visitante_Placar'] = pd.to_numeric(df['visitante_Placar'])
 df['data'] = pd.to_datetime(df['data'], dayfirst=True)
 df['ano'] = df['data'].dt.year
 
+# =====================
+# CÁLCULOS PERMANENTES
+# =====================
+resultados = []
+for _, row in df.iterrows():
+    if row['mandante_Placar'] > row['visitante_Placar']:
+        pontos_m, pontos_v = 3, 0
+    elif row['mandante_Placar'] < row['visitante_Placar']:
+        pontos_m, pontos_v = 0, 3
+    else:
+        pontos_m, pontos_v = 1, 1
+
+    resultados.append([row['ano'], row['mandante'], pontos_m])
+    resultados.append([row['ano'], row['visitante'], pontos_v])
+
+classificacao = pd.DataFrame(resultados, columns=['ano', 'time', 'pontos'])
+classificacao = classificacao.groupby(['ano', 'time'])['pontos'].sum().reset_index()
+
+campeoes = (
+    classificacao
+    .sort_values(['ano', 'pontos'], ascending=[True, False])
+    .groupby('ano')
+    .first()
+    .reset_index()
+)
+titulos_por_time = campeoes['time'].value_counts().to_dict()
+
+rebaixamentos_por_time = {}
+for ano in classificacao['ano'].unique():
+    class_ano = classificacao[classificacao['ano'] == ano].sort_values('pontos', ascending=False)
+    rebaixados_ano = class_ano.tail(4)['time'].tolist()
+    for time_name in rebaixados_ano:
+        rebaixamentos_por_time.setdefault(time_name, []).append(int(ano))
+
+all_times = sorted(pd.unique(df[['mandante', 'visitante']].values.ravel('K')))
+
+vitorias_mandante = (
+    df[df['mandante_Placar'] > df['visitante_Placar']]
+    .groupby('mandante')
+    .size()
+)
+vitorias_visitante = (
+    df[df['visitante_Placar'] > df['mandante_Placar']]
+    .groupby('visitante')
+    .size()
+)
+vitorias_por_time = vitorias_mandante.add(vitorias_visitante, fill_value=0).astype(int).to_dict()
+
+gols_mandante = df.groupby('mandante')['mandante_Placar'].sum()
+gols_visitante = df.groupby('visitante')['visitante_Placar'].sum()
+gols_por_time = gols_mandante.add(gols_visitante, fill_value=0).astype(int).to_dict()
+
 app = Flask(__name__)
+
+
+def get_time_id(time):
+    id_time = df.loc[df['mandante'] == time, 'mandante_id']
+    if id_time.empty:
+        id_time = df.loc[df['visitante'] == time, 'visitante_id']
+    return int(id_time.iloc[0]) if not id_time.empty else None
+
+
+def build_time_summary(time):
+    id_time = get_time_id(time)
+    return {
+        'time': time,
+        'ID': id_time,
+        'vitorias': int(vitorias_por_time.get(time, 0)),
+        'gols': int(gols_por_time.get(time, 0)),
+        'titulos_brasileirao': int(titulos_por_time.get(time, 0)),
+        'rebaixamentos': rebaixamentos_por_time.get(time, []),
+        'URL escudo': f'http://localhost:5000/escudo/{id_time}' if id_time is not None else None
+    }
+
+
+def get_all_teams_summary():
+    return [build_time_summary(time) for time in all_times]
+
 
 @app.route('/timemain/time_main', methods=['GET'])
 def resumo_time():
     time = request.args.get('time')
 
     if not time:
-        return jsonify({'error': 'Time não informado'}), 400
+        return jsonify(get_all_teams_summary())
+
+    if time not in all_times:
+        return jsonify({'error': 'Time não encontrado'}), 404
 
     # =====================
     # GOLS

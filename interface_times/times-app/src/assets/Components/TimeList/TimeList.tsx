@@ -16,7 +16,7 @@ interface TimeData {
 const TimeList = () => {
 
   const [dados, setDados] = useState<TimeData[]>([]); 
-  const URL = "http://127.0.0.1:5000/API/campeoes_A";
+  const URL = `http://127.0.0.1:5000/tabela?ano=2005`;
 
   useEffect(() => {
     async function fetchData() {
@@ -24,7 +24,7 @@ const TimeList = () => {
         const resp = await fetch(URL);
         if (resp.ok) {
           const data = await resp.json();
-          setDados(data["Campeões"]);
+          setDados(data);
         }
       } catch (error) {
         console.error("Erro ao buscar API:", error);
@@ -35,8 +35,8 @@ const TimeList = () => {
 
   return (
     <div className="time-list">
-    {dados.map((time, pontos, ano, index) => (
-      <TimeCard key={index} dados={ano, pontos, time} />
+    {dados.map((time, index) => (
+      <TimeCard key={index} dados={time} />
     ))}
   </div>
   );

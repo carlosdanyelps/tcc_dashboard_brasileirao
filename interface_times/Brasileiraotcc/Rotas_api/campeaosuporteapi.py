@@ -1,11 +1,16 @@
 from flask import Flask, request, jsonify
 import pandas as pd
+import sys
+import os
+from funcoes.ID import adicionar_ids
 
 # =========================
 # CARREGAR DADOS
 # =========================
 df = pd.read_csv('campeonato-brasileiro-full.csv')
+df = adicionar_ids(df)
 
+url_escudo_base = 'http://localhost:5000/escudo/'
 # =========================
 # TRATAR DATAS
 # =========================
@@ -45,14 +50,23 @@ df['pontos_visitante'] = (
 # =========================
 # AGRUPAR PONTOS
 # =========================
-pontos_mandantes = df.groupby(['ano', 'mandante'])['pontos_mandante'].sum().reset_index()
-pontos_visitantes = df.groupby(['ano', 'visitante'])['pontos_visitante'].sum().reset_index()
-
+pontos_mandantes = (
+    df.groupby(['ano', 'mandante', 'mandante_id'])['pontos_mandante']
+    .sum()
+    .reset_index()
+)
+pontos_mandantes['url_escudo'] = url_escudo_base + pontos_mandantes['mandante_id'].astype(str)
 pontos_mandantes.rename(columns={
     'mandante': 'time',
     'pontos_mandante': 'pontos'
 }, inplace=True)
 
+pontos_visitantes = (
+    df.groupby(['ano', 'visitante', 'visitante_id'])['pontos_visitante']
+    .sum()
+    .reset_index()
+)
+pontos_visitantes['url_escudo'] = url_escudo_base + pontos_visitantes['visitante_id'].astype(str)
 pontos_visitantes.rename(columns={
     'visitante': 'time',
     'pontos_visitante': 'pontos'
@@ -63,11 +77,13 @@ pontos_visitantes.rename(columns={
 # =========================
 pontos_totais = pd.concat([pontos_mandantes, pontos_visitantes])
 
-pontos_totais = pontos_totais.groupby(['ano', 'time'])['pontos'].sum().reset_index()
+pontos_totais = pontos_totais.groupby(['ano', 'time', 'url_escudo'])['pontos'].sum().reset_index()
 
 # =========================
 # DEFINIR CAMPEÕES
 # =========================
 campeoes_geral = pontos_totais.loc[
     pontos_totais.groupby('ano')['pontos'].idxmax()
+    
 ].sort_values('ano')
+
