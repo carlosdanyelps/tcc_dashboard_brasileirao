@@ -1,0 +1,98 @@
+import pandas as pd
+import os
+import sys
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from funcoes.ID import adicionar_ids
+
+# =========================
+# CARREGAR DADOS
+# =========================
+df = pd.read_csv('campeonato-brasileiro-full.csv')
+df = adicionar_ids(df)
+
+# =========================
+# TRATAR DATAS
+# =========================
+df['data'] = pd.to_datetime(df['data'], dayfirst=True, errors='coerce')
+df['ano'] = df['data'].dt.year  
+
+# =========================
+# REMOVER DUPLICATAS (ESSENCIAL)
+# =========================
+df['id_jogo'] = df['partida_id'].fillna(
+    df['data'].astype(str) + df['mandante'] + df['visitante']
+)
+
+df = df.drop_duplicates(subset='id_jogo')
+
+# =========================
+# TRATAR PLACARES
+# =========================
+df['mandante_Placar'] = pd.to_numeric(df['mandante_Placar'], errors='coerce')
+df['visitante_Placar'] = pd.to_numeric(df['visitante_Placar'], errors='coerce')
+
+# =========================
+# PONTOS
+# =========================
+df['pontos_m'] = (
+    (df['mandante_Placar'] > df['visitante_Placar']) * 3 +
+    (df['mandante_Placar'] == df['visitante_Placar']) * 1
+)
+
+df['pontos_v'] = (
+    (df['visitante_Placar'] > df['mandante_Placar']) * 3 +
+    (df['visitante_Placar'] == df['mandante_Placar']) * 1
+)
+
+# =========================
+# MANDANTES
+# =========================
+mandantes = df[['ano', 'mandante', 'mandante_id', 'pontos_m', 'mandante_Placar', 'visitante_Placar']].copy()
+mandantes.columns = ['ano', 'time', 'id', 'pontos', 'gols_pro', 'gols_tomados']
+
+# =========================
+# VISITANTES
+# =========================
+visitantes = df[['ano', 'visitante', 'visitante_id', 'pontos_v', 'visitante_Placar', 'mandante_Placar']].copy()
+visitantes.columns = ['ano', 'time', 'id', 'pontos', 'gols_pro', 'gols_tomados']
+
+# =========================
+# JUNTAR
+# =========================
+tabela_df = pd.concat([mandantes, visitantes])
+
+# =========================
+# AGRUPAR
+# =========================
+tabela_final = tabela_df.groupby(['ano', 'time', 'id']).agg({
+    'pontos': 'sum',
+    'gols_pro': 'sum',
+    'gols_tomados': 'sum'
+}).reset_index()
+
+# =========================
+# SALDO
+# =========================
+tabela_final['saldo'] = tabela_final['gols_pro'] - tabela_final['gols_tomados']
+
+# =========================
+# FUNÇÃO FINAL
+# =========================
+def tabela_ano(ano):
+    tabela = tabela_final[tabela_final['ano'] == ano].copy()
+    
+    tabela = tabela.sort_values(
+        ['pontos', 'saldo', 'gols_pro'],
+        ascending=[False, False, False]
+    )
+    
+    tabela = tabela.head(20)
+    
+    tabela['posicao'] = range(1, len(tabela) + 1)
+
+    print(tabela)
+    return tabela
+
+
+# TESTE
