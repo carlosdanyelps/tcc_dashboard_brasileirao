@@ -16,7 +16,7 @@ interface TimeData {
 const TimeList = () => {
 
   const [dados, setDados] = useState<TimeData[]>([]); 
-  const URL = `http://127.0.0.1:5000/tabela?ano=2005`;
+  const URL = `http://127.0.0.1:5000/tabela?ano=2003`;
 
   useEffect(() => {
     async function fetchData() {
