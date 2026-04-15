@@ -64,6 +64,17 @@ vitorias_visitante = (
     .size()
 )
 vitorias_por_time = vitorias_mandante.add(vitorias_visitante, fill_value=0).astype(int).to_dict()
+derrotas_mandante = (
+    df[df['mandante_Placar'] < df['visitante_Placar']]
+    .groupby('mandante')
+    .size()
+)
+derrotas_visitante = (
+    df[df['visitante_Placar'] < df['mandante_Placar']]
+    .groupby('visitante')
+    .size()
+)
+derrotas_por_time = derrotas_mandante.add(derrotas_visitante, fill_value=0).astype(int).to_dict()
 
 gols_mandante = df.groupby('mandante')['mandante_Placar'].sum()
 gols_visitante = df.groupby('visitante')['visitante_Placar'].sum()
@@ -82,9 +93,10 @@ def get_time_id(time):
 def build_time_summary(time):
     id_time = get_time_id(time)
     return {
-        'time': time,
         'ID': id_time,
+        'time': time,
         'vitorias': int(vitorias_por_time.get(time, 0)),
+        'derrotas': int(derrotas_por_time.get(time, 0)),
         'gols': int(gols_por_time.get(time, 0)),
         'titulos_brasileirao': int(titulos_por_time.get(time, 0)),
         'rebaixamentos': rebaixamentos_por_time.get(time, []),
@@ -127,6 +139,19 @@ def resumo_time():
     ].shape[0]
 
     total_vitorias = vitorias_mandante + vitorias_visitante
+    #=======================
+    # DERROTAS
+    #=======================
+    derrotas_mandante = df[
+        (df['mandante'] == time) &
+        (df['mandante_Placar'] < df['visitante_Placar'])
+    ].shape[0]
+    derrotas_visitante = df[
+        (df['visitante'] == time) &
+        (df['visitante_Placar'] < df['mandante_Placar'])
+    ].shape[0]
+
+    total_derrotas = derrotas_mandante + derrotas_visitante
 
     # =====================
     # TÍTULOS
@@ -173,10 +198,11 @@ def resumo_time():
 
     id_time = int(id_time.iloc[0]) if not id_time.empty else None
     return jsonify({
-        'time': time,
         'ID': id_time,
-        'vitorias': int(total_vitorias),
+        'time': time,
         'gols': int(total_gols),
+        'vitorias': int(total_vitorias),
+        'derrotas': int(total_derrotas),
         'titulos_brasileirao': int(titulos),
         'rebaixamentos': rebaixamentos,
         'URL escudo': f'http://localhost:5000/escudo/{id_time}'  # Exemplo de URL para escudo
