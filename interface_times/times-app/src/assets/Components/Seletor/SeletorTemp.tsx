@@ -15,7 +15,7 @@ interface TimeSeletorProps {
 
 const SeletorTemp = ({ dados, onAnoChange, anoSelecionado }: TimeSeletorProps) => {
     return (
-        <select name="ano" id="temporada" value={anoSelecionado} onChange={(e) => onAnoChange(Number(e.target.value))}>
+        <select className='selector' name="ano" id="temporada" value={anoSelecionado} onChange={(e) => onAnoChange(Number(e.target.value))}>
           <option value="" disabled>Selecione uma temporada</option>
           {dados.map((item) => (
             <option key={item.ano} value={item.ano}>
