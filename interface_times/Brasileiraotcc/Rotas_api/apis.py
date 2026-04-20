@@ -3,9 +3,9 @@ import sys
 import os
 # Permitir importar da pasta funcoes
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from interface_times.Brasileiraotcc.Rotas_api.campeaosuporteapiold import campeoes_geral
-from interface_times.Brasileiraotcc.funcoes.campeoes_old import tabela_ano
-from Rotas_api.timemain import resumo_time
+from campeaosuporteapi import campeoes_geral
+from ..funcoes.campeoes.campeoes import tabela_ano
+import Rotas_api.timemain
 from escudos.API_escudos import escudo
 from funcoes.estatistica import pontuacao_final_por_temporada, mid_derrota, mid_gol, mid_vitoria, mid_empate
 from flask_cors import CORS
@@ -37,7 +37,7 @@ def get_tabela():
 ###############################################################
 @app.route('/timemain')
 def timemain():
-    return resumo_time()
+    return Rotas_api.timemain.resumo_time()
 
 ################################################################
 ############# ESCUDO #############

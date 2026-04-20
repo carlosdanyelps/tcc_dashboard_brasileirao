@@ -47,6 +47,7 @@ df['temporada'] = df.apply(definir_temporada, axis=1)
 
 # =========================
 # REMOVER JOGOS DUPLICADOS
+# (resolve problema de 2014+)
 # =========================
 df['id_jogo'] = df['partida_id'].fillna(
     df['data'].astype(str) + df['mandante'] + df['visitante']
@@ -61,8 +62,9 @@ df['mandante_Placar'] = pd.to_numeric(df['mandante_Placar'], errors='coerce')
 df['visitante_Placar'] = pd.to_numeric(df['visitante_Placar'], errors='coerce')
 
 # =========================
-# CALCULAR PONTOS
+# CALCULAR PONTOS (SEM ITERROWS)
 # =========================
+
 df['pontos_mandante'] = (
     (df['mandante_Placar'] > df['visitante_Placar']) * 3 +
     (df['mandante_Placar'] == df['visitante_Placar']) * 1
@@ -102,6 +104,7 @@ pontos_visitantes.rename(columns={
 # SOMAR TOTAL POR TIME
 # =========================
 pontos_totais = pd.concat([pontos_mandantes, pontos_visitantes])
+
 pontos_totais = pontos_totais.groupby(['temporada', 'time', 'url_escudo'])['pontos'].sum().reset_index()
 
 # =========================
@@ -109,6 +112,7 @@ pontos_totais = pontos_totais.groupby(['temporada', 'time', 'url_escudo'])['pont
 # =========================
 campeoes_geral = pontos_totais.loc[
     pontos_totais.groupby('temporada')['pontos'].idxmax()
+    
 ].sort_values('temporada')
 
 
@@ -161,3 +165,4 @@ def get_tabela_temporada(temporada):
     )
     
     return tabela.to_dict('records')
+
