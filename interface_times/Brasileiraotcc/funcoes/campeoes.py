@@ -24,6 +24,37 @@ df['escudo_m'] = url_escudo_base + df['mandante_id'].astype(str)
 df['escudo_v'] = url_escudo_base + df['visitante_id'].astype(str)
 
 # =========================
+# DEFINIR TEMPORADA BASEADA EM RODATA
+# =========================
+# A coluna 'rodata' define a rodada dentro da temporada
+# Temporadas normais: 1-38 rodadas em um ano
+# Temporada 2020/2021: rodadas 1-27 em 2020, rodadas 28-38 em 2021
+
+def definir_temporada(row):
+    """
+    Define a temporada baseada em rodata e ano civil
+    """
+    if pd.isna(row['rodata']):
+        # Se não tem rodada, usar ano civil como fallback
+        return row['ano_civil']
+    
+    rodata = row['rodata']
+    ano_civil = row['ano_civil']
+    
+    # Para 2021 com rodata >= 28, pertence à temporada 2020/2021
+    if ano_civil == 2021 and rodata >= 28.0:
+        return 2020  # A temporada é "2020/2021", representada como 2020
+    
+    # Para 2020 com rodata 1-27, também pertence a 2020/2021
+    if ano_civil == 2020 and 1.0 <= rodata <= 27.0:
+        return 2020
+    
+    # Todos os outros casos, usar ano civil
+    return ano_civil
+
+df['temporada'] = df.apply(definir_temporada, axis=1)
+
+# =========================
 # REMOVER DUPLICATAS (ESSENCIAL)
 # =========================
 df['id_jogo'] = df['partida_id'].fillna(
