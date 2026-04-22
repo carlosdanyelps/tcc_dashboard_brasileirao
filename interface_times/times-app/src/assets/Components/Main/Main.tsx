@@ -3,7 +3,11 @@
 import './Main.css'
 import TimeList from '../TimeList/TimeList';
 
-const Main = () => {
+interface MainProps {
+  anoSelecionado: number;
+}
+
+const Main = ({ anoSelecionado }: MainProps) => {
   
     return (
       <div className="main">
@@ -12,7 +16,7 @@ const Main = () => {
               <p>Hello</p>
           </div>
           <div className='aside-content'>
-              <TimeList />
+              <TimeList anoSelecionado={anoSelecionado} />
           </div>
         </div>
         <div className="table">

@@ -5,7 +5,6 @@ import './TimeList.css';
 // import axios from 'axios';
 import TimeCard from '../TimeCard/TimeCard';
 import { useState, useEffect } from "react";
-// import { Movie } from '@/app/types/movie';
 
 interface TimeData {
   time: string;
@@ -13,10 +12,14 @@ interface TimeData {
   ano: number;
 }
 
-const TimeList = () => {
+interface TimeListProps {
+  anoSelecionado: number;
+}
+
+const TimeList = ({ anoSelecionado }: TimeListProps) => {
 
   const [dados, setDados] = useState<TimeData[]>([]); 
-  const URL = `http://127.0.0.1:5000/tabela?ano=2003`;
+  const URL = `http://127.0.0.1:5000/tabela?ano=${anoSelecionado}`;
 
   useEffect(() => {
     async function fetchData() {
@@ -31,7 +34,7 @@ const TimeList = () => {
       }
     }
     fetchData();
-  }, []);
+  }, [anoSelecionado]);
 
   return (
     <div className="time-list">
