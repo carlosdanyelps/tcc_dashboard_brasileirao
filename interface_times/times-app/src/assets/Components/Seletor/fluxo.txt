@@ -1,0 +1,17 @@
+main.tsx (Estado centralizado)
+    ↓
+Header (recebe dados + callback)
+    ↓ (quando usuário seleciona um ano)
+SeletorTemp (chama onAnoChange)
+    ↓ (volta ao pai)
+main.tsx (estado atualiza setAnoSelecionado)
+    ↓ (passa novo valor para Main)
+Main (recebe anoSelecionado)
+    ↓
+TimeList (recebe anoSelecionado)
+    ↓
+useEffect dispara (por causa da dependência)
+    ↓
+URL é montada com novo ano
+    ↓
+Fetch busca dados da API

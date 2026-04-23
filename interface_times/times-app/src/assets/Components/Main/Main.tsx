@@ -10,6 +10,7 @@ interface MainProps {
 const Main = ({ anoSelecionado }: MainProps) => {
   
     return (
+      
       <div className="main">
         <div className="main-content">
           <div className='graphic-session'>
