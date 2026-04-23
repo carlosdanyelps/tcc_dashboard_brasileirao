@@ -2,6 +2,7 @@
 
 import './Main.css'
 import TimeList from '../TimeList/TimeList';
+import ChartAPI from '../graphics/ChartAPI/ChartAPI';
 
 interface MainProps {
   anoSelecionado: number;
@@ -14,7 +15,7 @@ const Main = ({ anoSelecionado }: MainProps) => {
       <div className="main">
         <div className="main-content">
           <div className='graphic-session'>
-              <p>Hello</p>
+              <ChartAPI anoSelecionado={anoSelecionado} />
           </div>
           <div className='aside-content'>
               <TimeList anoSelecionado={anoSelecionado} />
