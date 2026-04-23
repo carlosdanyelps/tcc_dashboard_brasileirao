@@ -1,8 +1,8 @@
 import pandas as pd
-import os
 import sys
+import os
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from funcoes.ID import adicionar_ids
 
 # =========================
