@@ -5,7 +5,9 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from campeaosuporteapi import campeoes_geral
-from ..funcoes.campeoes import tabela_ano
+
+from funcoes.campeoes import tabela_ano
+
 import Rotas_api.timemain
 from escudos.API_escudos import escudo
 from funcoes.estatistica import pontuacao_final_por_temporada, mid_derrota, mid_gol, mid_vitoria, mid_empate
