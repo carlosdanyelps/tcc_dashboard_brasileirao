@@ -2,16 +2,19 @@ from flask import Flask, jsonify, request
 import sys
 import os
 # Permitir importar da pasta funcoes
+# <<<<<<< HEAD:interface_times/api/rotas_api/apis.py
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from rotas_api.campeaosuporteapi import campeoes_geral
 from funcoes.campeoes import tabela_ano
 from rotas_api.timemain import resumo_time
+
 from escudos.API_escudos import escudo
 from funcoes.estatistica import pontuacao_final_por_temporada, mid_derrota, mid_gol, mid_vitoria, mid_empate
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
+
 
 #################### Tabela de classificação por ano #####################
 @app.route('/tabela', methods=['GET'])
@@ -37,7 +40,7 @@ def get_tabela():
 ###############################################################
 @app.route('/timemain')
 def timemain():
-    return Rotas_api.timemain.resumo_time()
+    return resumo_time()
 
 ################################################################
 ############# ESCUDO #############
