@@ -30,7 +30,7 @@ interface DadoApi {
 }
 
 const ChartAPI = ({ anoSelecionado}: ChartApiProps) => {
-    const [chartData, setChartData] = useState<{ labels: number[]; datasets: object[]; times: string[] } | null>(null);
+    const [chartData, setChartData] = useState<{ labels: string[]; datasets: object[]; times: string[] } | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -42,9 +42,9 @@ const ChartAPI = ({ anoSelecionado}: ChartApiProps) => {
 
                 const dadosApi: DadoApi[] = Array.isArray(json) 
                 ? json 
-                : json['Campeoes todas temporadas'] || json['campeoes'] || [];
+                : json["Campeoes todas temporadas"] || json['campeoes'] || [];
 
-                const labels = dadosApi.map(item => item.ano);
+                const labels = dadosApi.map(item => item.time);
                 const valores = dadosApi.map(item => item.pontos);
                 const times = dadosApi.map(item => item.time);
 
@@ -86,7 +86,7 @@ const ChartAPI = ({ anoSelecionado}: ChartApiProps) => {
                             title: (context) => `Ano: ${context[0].label}`,
                             label: (context) => {
                                 const index = context.dataIndex;
-                                const time = chartData.times[index];
+                                const time = chartData?.times?.[index] ?? 'Time não disponível';
                                 const pts = context.parsed.y;
                                 return `Time: ${time} | Pontos: ${pts}`;
                             },
