@@ -3,9 +3,9 @@ import sys
 import os
 # Permitir importar da pasta funcoes
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from Rotas_api.campeaosuporteapi import campeoes_geral
+from rotas_api.campeaosuporteapi import campeoes_geral
 from funcoes.campeoes import tabela_ano
-from Rotas_api.timemain import resumo_time
+from rotas_api.timemain import resumo_time
 from escudos.API_escudos import escudo
 from funcoes.estatistica import pontuacao_final_por_temporada, mid_derrota, mid_gol, mid_vitoria, mid_empate
 from flask_cors import CORS

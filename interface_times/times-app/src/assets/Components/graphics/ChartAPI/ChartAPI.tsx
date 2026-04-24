@@ -80,7 +80,7 @@ const ChartAPI = ({ anoSelecionado}: ChartApiProps) => {
                             title: (context) => `Ano: ${context[0].label}`,
                             label: (context) => {
                                 const index = context.dataIndex;
-                                const time = chartData.times[index];
+                                const time = chartData.time[index];
                                 const pts = context.parsed.y;
                                 return `Time: ${time} | Pontos: ${pts}`;
                             },
