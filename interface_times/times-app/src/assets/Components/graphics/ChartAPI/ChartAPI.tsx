@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Bar, Chart } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -23,8 +23,14 @@ interface ChartApiProps {
     anoSelecionado: number;
 }
 
+interface DadoApi {
+    ano: number;
+    pontos: number;
+    time: string;
+}
+
 const ChartAPI = ({ anoSelecionado}: ChartApiProps) => {
-    const [chartData, setChartData] = useState(null);
+    const [chartData, setChartData] = useState<{ labels: number[]; datasets: object[]; times: string[] } | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -34,7 +40,7 @@ const ChartAPI = ({ anoSelecionado}: ChartApiProps) => {
                 const response = await fetch(url);
                 const json = await response.json();
 
-                const dadosApi = Array.isArray(json) 
+                const dadosApi: DadoApi[] = Array.isArray(json) 
                 ? json 
                 : json['Campeoes todas temporadas'] || json['campeoes'] || [];
 
@@ -80,7 +86,7 @@ const ChartAPI = ({ anoSelecionado}: ChartApiProps) => {
                             title: (context) => `Ano: ${context[0].label}`,
                             label: (context) => {
                                 const index = context.dataIndex;
-                                const time = chartData.time[index];
+                                const time = chartData.times[index];
                                 const pts = context.parsed.y;
                                 return `Time: ${time} | Pontos: ${pts}`;
                             },
