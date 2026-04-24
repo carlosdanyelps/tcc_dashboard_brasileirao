@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Ignorar caches do Parcel
+.parcel-cache/
+interface_times/chart.js/.parcel-cache/
+
+# Ignorar arquivos de dados pesados
+*.mdb
+node_modules/

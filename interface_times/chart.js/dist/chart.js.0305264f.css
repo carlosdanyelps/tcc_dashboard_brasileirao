@@ -1,0 +1,17 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  flex-direction: column;
+  height: 100vh;
+  display: flex;
+}
+
+.grafico_para_API, .grafico_para_API2 {
+  flex-direction: row;
+  margin-top: 20px;
+  display: flex;
+}
+/*# sourceMappingURL=chart.js.0305264f.css.map */
