@@ -4,7 +4,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from funcoes.ID import adicionar_ids
-
+from escudos.cor import cor
 
 df = pd.read_csv('campeonato-brasileiro-full.csv')
 df = adicionar_ids(df)
@@ -95,6 +95,7 @@ def build_time_summary(time):
     return {
         'ID': id_time,
         'time': time,
+        'cor': cor(time),
         'vitorias': int(vitorias_por_time.get(time, 0)),
         'derrotas': int(derrotas_por_time.get(time, 0)),
         'gols': int(gols_por_time.get(time, 0)),
@@ -200,6 +201,7 @@ def resumo_time():
     return jsonify({
         'ID': id_time,
         'time': time,
+        'cor': cor(time),
         'gols': int(total_gols),
         'vitorias': int(total_vitorias),
         'derrotas': int(total_derrotas),
