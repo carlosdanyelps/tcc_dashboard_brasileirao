@@ -54,8 +54,8 @@ const ChartAPI = ({ anoSelecionado}: ChartApiProps) => {
                         {
                             label: 'Pontos do Campeão',
                             data: valores,
-                            backgroundColor: 'rgba(255, 0, 0, 0.6)',
-                            borderColor: 'rgba(255, 0, 0, 1)',
+                            backgroundColor: 'rgba(0, 255, 13, 0.6)',
+                            borderColor: 'rgb(0, 255, 42)',
                             borderWidth: 1,
                         },
                     ],

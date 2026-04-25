@@ -24,7 +24,7 @@ const Main = ({ anoSelecionado }: MainProps) => {
         <div className="table">
         </div>
       </div>
-    );
+    );  
 }
 
 export default Main

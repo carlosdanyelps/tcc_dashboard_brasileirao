@@ -4,7 +4,7 @@ import Chart from 'chart.js/auto';
     try {
         const [res1, res2] = await Promise.all([
             fetch('http://127.0.0.1:5000/pontuacao_temporada?time=Flamengo'),
-            fetch('http://127.0.0.1:5000/pontuacao_temporada?time=Vasco')
+            fetch('http://127.0.0.1:5000/pontuacao_temporada?time=Palmeiras')
         ]);
 
         const json1 = await res1.json();
