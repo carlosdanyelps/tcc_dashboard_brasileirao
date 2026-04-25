@@ -1,46 +1,46 @@
-﻿ID,arquivo,time
-1,guarani.png,Guarani
-2,athletico-paranaense-footballlogos-org.png,Atlético-PR
-3,flamengo-crf-footballlogos-org.png,Flamengo
-4,goias-footballlogos-org.png,Goiás
-5,sc-internacional-footballlogos-org.png,Internacional
-6,criciuma.png,Criciúma
-7,juventude-footballlogos-org.png,Juventude
-8,fortaleza-footballlogos-org.png,Fortaleza
-9,cruzeiro-footballlogos-org.png,Cruzeiro
-10,vitoria-footballlogos-org.png,Vitória
-11,santos-fc-footballlogos-org.png,Santos
-12,corinthians-footballlogos-org.png,Corinthians
-13,fluminense-footballlogos-org.png,Fluminense
-14,atletico-mineiro-footballlogos-org.png,Atlético-MG
-15,coritiba-footballlogos-org.png,Coritiba
-16,gremio-footballlogos-org.png,Grêmio
-17,bahia-footballlogos-org.png,Bahia
-18,figueirense.png,Figueirense
-19,paysandu-footballlogos-org.png,Paysandu
-20,ponte-preta.png,Ponte Preta
-21,parana-clube-de-curitiba-pr-logo-png-transparent.png,Paraná
-22,Associação_Desportiva_São_Caetano.png,São Caetano
-23,sao-paulo-spfc-footballlogos-org.png,São Paulo
-24,vasco-de-gama-footballlogos-org.png,Vasco
-25,botafogo-footballlogos-org.png,Botafogo-RJ
-26,palmeiras-footballlogos-org.png,Palmeiras
-27,Brasiliense_Futebol_Clube.png,Brasiliense
-28,santa-cruz.png,Santa Cruz
-29,América_RN.png,America-RN
-30,sport-recife-footballlogos-org.png,Sport
-31,nautico.png,Náutico
-32,IpatingaFC.png,Ipatinga
-33,Portuguesa_de_Desportos.png,Portuguesa
-34,avai-fc-footballlogos-org.png,Avaí
-35,Santo_Andre_escudo.png,Santo Andre
-36,barueri-logo-png_seeklogo-16817.png,Barueri
-37,atletico-goianiense-footballlogos-org.png,Atlético-GO
-38,ceara-fc-footballlogos-org.png,Ceará
-39,Grêmio_Prudente2019.png,Grêmio Prudente
-40,america-mineiro-footballlogos-org.png,America-MG
-41,chapecoense-footballlogos-org.png,Chapecoense
-42,Joinville-SC.png,Joinville
-43,csa.png,CSA
-44,rb-bragantino-footballlogos-org.png,Bragantino
-45,cuiaba-footballlogos-org.png,Cuiaba
+﻿ID,arquivo,time,cor
+1,guarani.png,Guarani,Green
+2,athletico-paranaense-footballlogos-org.png,Atlético-PR,Red
+3,flamengo-crf-footballlogos-org.png,Flamengo,Red
+4,goias-footballlogos-org.png,Goiás,Green
+5,sc-internacional-footballlogos-org.png,Internacional,Red
+6,criciuma.png,Criciúma,Yellow
+7,juventude-footballlogos-org.png,Juventude,Green
+8,fortaleza-footballlogos-org.png,Fortaleza,Blue
+9,cruzeiro-footballlogos-org.png,Cruzeiro,Blue
+10,vitoria-footballlogos-org.png,Vitória,Red
+11,santos-fc-footballlogos-org.png,Santos,Black
+12,corinthians-footballlogos-org.png,Corinthians,Black
+13,fluminense-footballlogos-org.png,Fluminense,Green
+14,atletico-mineiro-footballlogos-org.png,Atlético-MG,Black
+15,coritiba-footballlogos-org.png,Coritiba,Green
+16,gremio-footballlogos-org.png,Grêmio,Blue
+17,bahia-footballlogos-org.png,Bahia,Blue
+18,figueirense.png,Figueirense,Black
+19,paysandu-footballlogos-org.png,Paysandu,Blue
+20,ponte-preta.png,Ponte Preta,Black
+21,parana-clube-de-curitiba-pr-logo-png-transparent.png,Paraná,Red
+22,Associação_Desportiva_São_Caetano.png,São Caetano,Blue
+23,sao-paulo-spfc-footballlogos-org.png,São Paulo,White
+24,vasco-de-gama-footballlogos-org.png,Vasco,Black
+25,botafogo-footballlogos-org.png,Botafogo-RJ,Black
+26,palmeiras-footballlogos-org.png,Palmeiras,Green
+27,Brasiliense_Futebol_Clube.png,Brasiliense,Yellow
+28,santa-cruz.png,Santa Cruz,Red
+29,América_RN.png,America-RN,Red
+30,sport-recife-footballlogos-org.png,Sport,Red
+31,nautico.png,Náutico,Red
+32,IpatingaFC.png,Ipatinga,Green
+33,Portuguesa_de_Desportos.png,Portuguesa,Red
+34,avai-fc-footballlogos-org.png,Avaí,Blue
+35,Santo_Andre_escudo.png,Santo Andre,Blue
+36,barueri-logo-png_seeklogo-16817.png,Barueri,Blue
+37,atletico-goianiense-footballlogos-org.png,Atlético-GO,Red
+38,ceara-fc-footballlogos-org.png,Ceará,Black
+39,Grêmio_Prudente2019.png,Grêmio Prudente,Blue
+40,america-mineiro-footballlogos-org.png,America-MG,Green
+41,chapecoense-footballlogos-org.png,Chapecoense,Green
+42,Joinville-SC.png,Joinville,Red
+43,csa.png,CSA,Blue
+44,rb-bragantino-footballlogos-org.png,Bragantino,Red
+45,cuiaba-footballlogos-org.png,Cuiaba,Green

@@ -6,6 +6,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from funcoes.ID import adicionar_ids
+from escudos.cor import cor
 
 # =========================
 # CARREGAR DADOS
@@ -106,6 +107,7 @@ tabela_final = tabela_df.groupby(['temporada', 'time', 'id', 'escudo'], as_index
 # SALDO
 # =========================
 tabela_final['saldo'] = tabela_final['gols_pro'] - tabela_final['gols_tomados']
+tabela_final['cor'] = tabela_final['time'].apply(cor)
 
 # =========================
 # FUNÇÃO PRINCIPAL (CORRIGIDA)
