@@ -11,6 +11,7 @@ from escudos.API_escudos import escudo
 from funcoes.estatistica import pontuacao_final_por_temporada, mid_derrota, mid_gol, mid_vitoria, mid_empate
 from escudos.cor import cor, bordaCor
 from flask_cors import CORS
+from tmp import get_classificacao
 
 app = Flask(__name__)
 CORS(app)
@@ -34,6 +35,19 @@ def get_tabela():
 
     return jsonify(tabela.to_dict(orient='records'))
 
+@app.route('/tabela/rodada', methods=['GET'])
+def get_tabela_rodada():
+    temporada = request.args.get('temporada', type=int)
+
+    if not temporada:
+        return jsonify({'erro': 'Informe a temporada'}), 400
+
+    tabela = get_classificacao(temporada)
+
+    if tabela is None:
+        return jsonify({'erro': f'Temporada {temporada} não encontrada'}), 404
+
+    return jsonify(tabela.to_dict(orient='records'))
 
 ###############################################################
 ############# TIME ESPECÍFICO - RESUMO COMPLETO #############
@@ -85,6 +99,7 @@ def get_estatisticas():
         'média_vitórias': mid_vitoria(time),
         'média_derrotas': mid_derrota(time),
         'média_empates': mid_empate(time)
+
     }
     return jsonify(estatisticas)
 
