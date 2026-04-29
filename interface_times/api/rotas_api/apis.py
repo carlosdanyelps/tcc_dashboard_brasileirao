@@ -9,6 +9,7 @@ from funcoes.campeoes import tabela_ano
 from rotas_api.timemain import resumo_time
 from escudos.API_escudos import escudo
 from funcoes.estatistica import pontuacao_final_por_temporada, mid_derrota, mid_gol, mid_vitoria, mid_empate
+from escudos.cor import cor, bordaCor
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -78,12 +79,17 @@ def get_estatisticas():
 
     estatisticas = {
         'time': time,
+        'cor': cor(time),
+        'borderColor': bordaCor(time),
         'média_gols': mid_gol(time),
         'média_vitórias': mid_vitoria(time),
         'média_derrotas': mid_derrota(time),
         'média_empates': mid_empate(time)
     }
     return jsonify(estatisticas)
+
+####################################comparação geral dos times#####################################
+
 
 if __name__ == '__main__':
     app.run(debug=True)
