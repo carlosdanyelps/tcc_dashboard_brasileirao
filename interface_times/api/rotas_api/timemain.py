@@ -75,6 +75,18 @@ derrotas_visitante = (
 )
 derrotas_por_time = derrotas_mandante.add(derrotas_visitante, fill_value=0).astype(int).to_dict()
 
+empates_mandante = (
+    df[df['mandante_Placar'] == df['visitante_Placar']]
+    .groupby('mandante')
+    .size()
+)
+empates_visitante = (
+    df[df['visitante_Placar'] == df['mandante_Placar']]
+    .groupby('visitante')
+    .size()
+)
+empates_por_time = empates_mandante.add(empates_visitante, fill_value=0).astype(int).to_dict()
+
 gols_mandante = df.groupby('mandante')['mandante_Placar'].sum()
 gols_visitante = df.groupby('visitante')['visitante_Placar'].sum()
 gols_por_time = gols_mandante.add(gols_visitante, fill_value=0).astype(int).to_dict()
@@ -98,6 +110,7 @@ def build_time_summary(time):
         'bordaCor': bordaCor(time),
         'vitorias': int(vitorias_por_time.get(time, 0)),
         'derrotas': int(derrotas_por_time.get(time, 0)),
+        'empates': int(empates_por_time.get(time, 0)),
         'gols': int(gols_por_time.get(time, 0)),
         'titulos_brasileirao': int(titulos_por_time.get(time, 0)),
         'rebaixamentos': rebaixamentos_por_time.get(time, []),

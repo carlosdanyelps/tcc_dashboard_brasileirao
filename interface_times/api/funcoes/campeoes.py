@@ -146,6 +146,9 @@ def obter_campeao(temporada):
         'time': campeao['time'],
         'id': int(campeao['id']),
         'pontos': int(campeao['pontos']),
+        'gols_pro': int(campeao['gols_pro']),
+        'gols_tomados': int(campeao['gols_tomados']),
+        'saldo': int(campeao['saldo']),
         'rodada_maxima': int(campeao['rodada']) if pd.notna(campeao['rodada']) else None,
         'escudo': campeao['escudo'],
         'cor': campeao['cor'],
@@ -165,3 +168,35 @@ def obter_todos_campeoes():
             campeoes.append(campeao)
 
     return campeoes
+
+
+def tabela_time_ano(time, temporada):
+    tabela = tabela_final[
+        (tabela_final['temporada'] == temporada) &
+        (tabela_final['time'].str.lower() == time.lower())
+    ].copy()
+
+    if tabela.empty:
+        return pd.DataFrame()
+
+    # ordenar igual classificação
+    tabela_temp = tabela_final[tabela_final['temporada'] == temporada].copy()
+
+    tabela_temp = tabela_temp.sort_values(
+        ['pontos', 'saldo', 'gols_pro'],
+        ascending=[False, False, False]
+    )
+
+    tabela_temp['posicao'] = range(1, len(tabela_temp) + 1)
+
+    # pegar posição do time
+    posicao = tabela_temp[
+        tabela_temp['time'].str.lower() == time.lower()
+    ]['posicao']
+
+    if not posicao.empty:
+        tabela['posicao'] = int(posicao.values[0])
+    else:
+        tabela['posicao'] = None
+
+    return tabela
