@@ -4,7 +4,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from funcoes.ID import adicionar_ids
-from escudos.cor import cor
+from escudos.cor import cor, bordaCor
 
 # =========================
 # CARREGAR DADOS
@@ -108,6 +108,7 @@ pontos_totais = pontos_totais.groupby(['temporada', 'time', 'url_escudo'])['pont
 # Adiciona coluna de cor ao DataFrame pontos_totais
 
 pontos_totais['cor'] = pontos_totais['time'].apply(cor)
+pontos_totais['bordaCor'] = pontos_totais['time'].apply(bordaCor)
 
 # =========================
 # DEFINIR CAMPEÕES
@@ -115,8 +116,9 @@ pontos_totais['cor'] = pontos_totais['time'].apply(cor)
 campeoes_geral = pontos_totais.loc[
     pontos_totais.groupby('temporada')['pontos'].idxmax()
 ].sort_values('temporada')
-# Adiciona coluna de cor ao DataFrame campeoes_geral
+ # Adiciona coluna de cor e borderColor ao DataFrame campeoes_geral
 campeoes_geral['cor'] = campeoes_geral['time'].apply(cor)
+campeoes_geral['bordaCor'] = campeoes_geral['time'].apply(bordaCor)
 
 
 # =========================
@@ -129,7 +131,7 @@ def get_campeao_temporada(temporada):
     """
     campeao = pontos_totais.loc[
         (pontos_totais['temporada'] == temporada),
-        ['time', 'url_escudo', 'pontos', 'cor']
+        ['time', 'url_escudo', 'pontos', 'cor', 'bordaCor']
     ].nlargest(1, 'pontos')
     
     if campeao.empty:
@@ -140,6 +142,7 @@ def get_campeao_temporada(temporada):
         'temporada': int(temporada),
         'time': resultado['time'],
         'cor': resultado['cor'],
+        'bordaCor': resultado['bordaCor'],
         'pontos': int(resultado['pontos']),
         'escudo': resultado['url_escudo']
     }
