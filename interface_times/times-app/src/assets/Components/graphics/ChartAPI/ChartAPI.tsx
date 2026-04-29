@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import './ChartAPI.css';
 import { Bar } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -27,8 +28,8 @@ interface DadoApi {
     ano: number;
     pontos: number;
     time: string;
+    cor: string;
 }
-
 const ChartAPI = ({ anoSelecionado}: ChartApiProps) => {
     const [chartData, setChartData] = useState<{ labels: string[]; datasets: object[]; times: string[] } | null>(null);
     const [loading, setLoading] = useState(true);
@@ -47,6 +48,8 @@ const ChartAPI = ({ anoSelecionado}: ChartApiProps) => {
                 const labels = dadosApi.map(item => item.time);
                 const valores = dadosApi.map(item => item.pontos);
                 const times = dadosApi.map(item => item.time);
+                const cores = dadosApi.map(item => item.cor ? item.cor.replace('0.6', '0.8') : 'rgba(75, 192, 192, 0.6)');
+                const borderColors = dadosApi.map(item => item.cor ? item.cor.replace('0.6', '1') : 'rgba(75, 192, 192, 1)');
 
                 setChartData({
                     labels,
@@ -54,8 +57,8 @@ const ChartAPI = ({ anoSelecionado}: ChartApiProps) => {
                         {
                             label: 'Pontos do Campeão',
                             data: valores,
-                            backgroundColor: 'rgba(0, 255, 13, 0.6)',
-                            borderColor: 'rgb(0, 255, 42)',
+                            backgroundColor: cores,
+                            borderColor: borderColors,
                             borderWidth: 1,
                         },
                     ],

@@ -27,6 +27,7 @@ const TimeCard = ({ dados }: TimeCardProps) => {
 
             <div className="time-info">
                 <h3>{dados.time}</h3>
+                <p>{dados.pontos} pontos</p>
                 
             </div>
         </li>
