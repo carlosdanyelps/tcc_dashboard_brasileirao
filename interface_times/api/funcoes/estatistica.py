@@ -71,7 +71,13 @@ def pontuacao_final_por_temporada(time):
         pontos_por_ano[int(ano)] = pontos
     return pontos_por_ano
 
-def comparar_times(time1, time2):
+def comp(time1, time2):
     pontos_time1 = pontuacao_final(time1)
     pontos_time2 = pontuacao_final(time2)
-    return pontos_time1, pontos_time2  
+
+    if pontos_time1 > pontos_time2:
+        return f"{time1} tem mais pontos ({pontos_time1}) do que {time2} ({pontos_time2})."
+    elif pontos_time1 < pontos_time2:
+        return f"{time2} tem mais pontos ({pontos_time2}) do que {time1} ({pontos_time1})."
+    else:
+        return f"{time1} e {time2} têm a mesma pontuação ({pontos_time1})."

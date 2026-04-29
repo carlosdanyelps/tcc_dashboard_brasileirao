@@ -60,37 +60,43 @@ def gerar_classificacao(df_filtrado):
 
     return classificacao
 
+# limpar dados
+df = df.dropna(subset=['mandante_Placar', 'visitante_Placar'])
 
-# =========================
-# FUNÇÃO: RODADA A RODADA
-# =========================
-def classificacao_por_rodada(df, temporada_desejada):
-    
-    df_temp = df[df['temporada_corrigida'] == temporada_desejada].copy()
+# cache
+cache = {}
+
+def classificacao_por_rodada(df, ano_desejado):
+
+    if ano_desejado in cache:
+        return cache[ano_desejado]
+
+    df_temp = df[df['temporada_corrigida'] == ano_desejado].copy()
 
     if df_temp.empty:
         return None
 
-    df_temp = df_temp.sort_values(by=['rodata_corrigida'])
+    col_rodada = 'rodata_corrigida' if 'rodata_corrigida' in df.columns else 'rodata'
 
-    rodadas = sorted(df_temp['rodata_corrigida'].dropna().unique())
+    df_temp = df_temp.sort_values(by=[col_rodada])
+    rodadas = sorted(df_temp[col_rodada].dropna().unique())
 
     resultados = []
 
     for rodada in rodadas:
-        
-        df_rodada = df_temp[df_temp['rodata_corrigida'] <= rodada]
+        df_rodada = df_temp[df_temp[col_rodada] <= rodada]
 
         classificacao = gerar_classificacao(df_rodada)
         classificacao['rodada'] = int(rodada)
-        classificacao['temporada'] = int(temporada_desejada)
+        classificacao['temporada'] = int(ano_desejado)
 
         resultados.append(classificacao)
 
     tabela_final = pd.concat(resultados, ignore_index=True)
 
-    return tabela_final
+    cache[ano_desejado] = tabela_final
 
+    return tabela_final
 
 # =========================
 # ROTA PRINCIPAL
@@ -98,15 +104,15 @@ def classificacao_por_rodada(df, temporada_desejada):
 @app.route('/classificacao', methods=['GET'])
 def get_classificacao():
     
-    temporada = request.args.get('temporada', type=int)
+    ano = request.args.get('ano', type=int)
 
-    if not temporada:
-        return jsonify({'erro': 'Informe a temporada. Ex: /classificacao?temporada=2003'}), 400
+    if not ano:
+        return jsonify({'erro': 'Informe o ano. Ex: /classificacao?ano=2003'}), 400
 
-    tabela = classificacao_por_rodada(df, temporada)
+    tabela = classificacao_por_rodada(df, ano)
 
     if tabela is None:
-        return jsonify({'erro': f'Temporada {temporada} não encontrada'}), 404
+        return jsonify({'erro': f'Ano {ano} não encontrado'}), 404
 
     return jsonify(tabela.to_dict(orient='records'))
 

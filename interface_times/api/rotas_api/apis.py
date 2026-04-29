@@ -1,8 +1,8 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
+import pandas as pd
 import sys
 import os
-# Permitir importar da pasta funcoes
-# <<<<<<< HEAD:interface_times/api/rotas_api/apis.py
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from rotas_api.campeaosuporteapi import campeoes_geral
 from funcoes.campeoes import tabela_ano
@@ -10,8 +10,11 @@ from rotas_api.timemain import resumo_time
 from escudos.API_escudos import escudo
 from funcoes.estatistica import pontuacao_final_por_temporada, mid_derrota, mid_gol, mid_vitoria, mid_empate
 from escudos.cor import cor, bordaCor
-from flask_cors import CORS
-from tmp import get_classificacao
+from tmp import classificacao_por_rodada
+
+
+df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'campeonato-brasileiro-full.csv'))
+
 
 app = Flask(__name__)
 CORS(app)
@@ -35,17 +38,21 @@ def get_tabela():
 
     return jsonify(tabela.to_dict(orient='records'))
 
+#################################################################
+############### tabela de classificação por rodada ##############
+#################################################################
+
 @app.route('/tabela/rodada', methods=['GET'])
 def get_tabela_rodada():
-    temporada = request.args.get('temporada', type=int)
+    ano = request.args.get('ano', type=int)
 
-    if not temporada:
-        return jsonify({'erro': 'Informe a temporada'}), 400
+    if not ano:
+        return jsonify({'erro': 'Informe o ano'}), 400
 
-    tabela = get_classificacao(temporada)
+    tabela = classificacao_por_rodada(df, ano)
 
     if tabela is None:
-        return jsonify({'erro': f'Temporada {temporada} não encontrada'}), 404
+        return jsonify({'erro': f'Ano {ano} não encontrado'}), 404
 
     return jsonify(tabela.to_dict(orient='records'))
 
