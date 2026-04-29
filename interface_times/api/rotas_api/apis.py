@@ -4,8 +4,9 @@ import pandas as pd
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from rotas_api.campeaosuporteapi import campeoes_geral
-from funcoes.campeoes import tabela_ano
+from rotas_api.campeaosuporteapi import campeoes_geral, ordenar_campeao
+
+from funcoes.campeoes import tabela_ano, tabela_time_ano
 from rotas_api.timemain import resumo_time
 from escudos.API_escudos import escudo
 from funcoes.estatistica import pontuacao_final_por_temporada, mid_derrota, mid_gol, mid_vitoria, mid_empate
@@ -21,22 +22,42 @@ CORS(app)
 
 
 #################### Tabela de classificação por ano #####################
+
 @app.route('/tabela', methods=['GET'])
 def get_tabela():
-    ano = request.args.get('ano')
+    ano = request.args.get('ano', type=int)
+    time = request.args.get('time')
 
-    if not ano:
+    # =========================
+    # SEM PARÂMETROS → CAMPEÕES
+    # =========================
+    if not ano and not time:
+        campeoes = campeoes_geral.to_dict(orient='records')
+        campeoes_ordenados = [ordenar_campeao(c) for c in campeoes]
+
         return jsonify({
-    'Campeoes todas temporadas': campeoes_geral.to_dict(orient='records')
-})
-    try:
-        ano = int(ano)
-    except:
-        return jsonify({'erro': 'Ano inválido'}), 400
+            'Campeoes todas temporadas': campeoes_ordenados
+        })
 
-    tabela = tabela_ano(ano)
 
-    return jsonify(tabela.to_dict(orient='records'))
+    if ano and time:
+        tabela = tabela_time_ano(time, ano)
+
+        if tabela.empty:
+            return jsonify({'erro': 'Time ou ano não encontrado'}), 404
+
+        return jsonify(tabela.to_dict(orient='records'))
+    if ano:
+        tabela = tabela_ano(ano)
+
+        if tabela.empty:
+            return jsonify({'erro': 'Ano não encontrado'}), 404
+
+        return jsonify(tabela.to_dict(orient='records'))
+
+    return jsonify({
+        'erro': 'Parâmetros inválidos. Use /tabela?ano=2003 ou /tabela?time=Flamengo&ano=2003'
+    }), 400
 
 #################################################################
 ############### tabela de classificação por rodada ##############
