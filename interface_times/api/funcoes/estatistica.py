@@ -71,3 +71,7 @@ def pontuacao_final_por_temporada(time):
         pontos_por_ano[int(ano)] = pontos
     return pontos_por_ano
 
+def comparar_times(time1, time2):
+    pontos_time1 = pontuacao_final(time1)
+    pontos_time2 = pontuacao_final(time2)
+    return pontos_time1, pontos_time2  

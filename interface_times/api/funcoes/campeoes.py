@@ -6,7 +6,8 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from funcoes.ID import adicionar_ids
-from escudos.cor import cor
+from escudos.cor import cor, bordaCor
+
 
 # =========================
 # CARREGAR DADOS
@@ -108,6 +109,7 @@ tabela_final = tabela_df.groupby(['temporada', 'time', 'id', 'escudo'], as_index
 # =========================
 tabela_final['saldo'] = tabela_final['gols_pro'] - tabela_final['gols_tomados']
 tabela_final['cor'] = tabela_final['time'].apply(cor)
+tabela_final['bordaCor'] = tabela_final['time'].apply(bordaCor)
 
 # =========================
 # FUNÇÃO PRINCIPAL (CORRIGIDA)
@@ -144,8 +146,10 @@ def obter_campeao(temporada):
         'time': campeao['time'],
         'id': int(campeao['id']),
         'pontos': int(campeao['pontos']),
+        'rodada_maxima': int(campeao['rodada']) if pd.notna(campeao['rodada']) else None,
         'escudo': campeao['escudo'],
-        'rodada_maxima': int(campeao['rodada']) if pd.notna(campeao['rodada']) else None
+        'cor': campeao['cor'],
+        'bordaCor': campeao['bordaCor']
     }
 
 # =========================

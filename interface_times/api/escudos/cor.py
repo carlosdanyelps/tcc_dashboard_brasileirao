@@ -8,3 +8,7 @@ cf = pd.read_csv(os.path.join(os.path.dirname(__file__), 'dataset_times/labels.c
 def cor(time):
     time_cor = {row['time']: row['cor'] for _, row in cf.iterrows()}
     return time_cor.get(time, 'Cor não encontrada')
+
+def bordaCor(time):
+    time_border = {row['time']: row['bordaCor'] for _, row in cf.iterrows()}
+    return time_border.get(time, 'BordaCor não encontrado')
