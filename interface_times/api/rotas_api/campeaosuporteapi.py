@@ -144,6 +144,9 @@ def get_campeao_temporada(temporada):
         'cor': resultado['cor'],
         'bordaCor': resultado['bordaCor'],
         'pontos': int(resultado['pontos']),
+        'gols_pro': int(resultado['gols_pro']) if 'gols_pro' in resultado else None,
+        'gols_tomados': int(resultado['gols_tomados']) if 'gols_tomados' in resultado else None,
+        'saldo': int(resultado['saldo']) if 'saldo' in resultado else None,
         'escudo': resultado['url_escudo']
     }
 
