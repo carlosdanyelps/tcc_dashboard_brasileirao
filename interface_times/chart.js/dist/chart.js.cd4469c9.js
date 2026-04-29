@@ -721,7 +721,7 @@ var _autoDefault = parcelHelpers.interopDefault(_auto);
     try {
         const [res1, res2] = await Promise.all([
             fetch('http://127.0.0.1:5000/estatisticas?time=Flamengo'),
-            fetch('http://127.0.0.1:5000/estatisticas?time=Crici%C3%BAma')
+            fetch("http://127.0.0.1:5000/estatisticas?time=Crici\xfama")
         ]);
         const json1 = await res1.json();
         const json2 = await res2.json();
