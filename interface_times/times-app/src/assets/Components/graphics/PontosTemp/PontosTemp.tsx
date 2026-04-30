@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./PontosTemp.css";
 import { Bar } from "react-chartjs-2";
 import {
@@ -29,7 +29,7 @@ interface DadoApi {
   pontos: number;
   time: string;
   cor: string;
-  escudo?: string;
+  escudo: string;
 }
 const PontosTemp = ({ anoSelecionado }: PontosTempProps) => {
   const [chartData, setChartData] = useState<{
@@ -38,29 +38,49 @@ const PontosTemp = ({ anoSelecionado }: PontosTempProps) => {
     times: string[];
   } | null>(null);
   const [loading, setLoading] = useState(true);
+  const chartRef = useRef<any>(null);
+
+  const imgCache = {};
 
   const imagePlugin = {
     id: "customBarImage",
-    afterDatasetsDraw(chart) {
+    afterDatasetsDraw(chart: any) {
       const { ctx, data, chartArea } = chart;
-      const images = data.datasets[0].images || [];
+      const dataset = data.datasets[0];
+      const images = dataset.images || [];
 
-      chart.getDatasetMeta(0).data.forEach((bar, index) => {
+      chart.getDatasetMeta(0).data.forEach((bar: any, index: number) => {
         const imgUrl = images[index];
+        if (!imgCache) return;
 
-        if (imgUrl && bar) {
-          const img = new Image();
-          img.onload = () => {
-            const size = 30;
-            const x = bar.x - size / 2;
-            const y = bar.y - size - 8;
-            
-            // Verificar se está dentro do canvas
-            if (y >= chartArea.top) {
-              ctx.drawImage(img, x, y, size, size);
+        if (!imgCache[imgUrl]) {
+          imgCache[imgUrl] = new Image();
+          imgCache[imgUrl].src = imgUrl;
+          imgCache[imgUrl].onload = () => {
+            if (chartRef.current) {
+              chartRef.current.draw();
             }
           };
-          img.src = imgUrl;
+        }
+
+        const img = imgCache[imgUrl];
+
+        if (img.complete && bar) {
+          const size = 30;
+          const x = bar.x - size / 2;
+          const y = bar.y - size - 8;
+
+          if (y >= chartArea.top) {
+            ctx.save();
+
+            const IsHovered = chart.getActiveElements().some((el: any) => el.index === index);
+            const hoverOpacity = IsHovered ? 0.5 : 1.0;
+
+            ctx.globalAlpha = hoverOpacity;
+            ctx.drawImage(img, x, y, size, size);
+            ctx.restore();
+        
+          }
         }
       });
     },
@@ -112,11 +132,22 @@ const PontosTemp = ({ anoSelecionado }: PontosTempProps) => {
     fetchData();
   }, [anoSelecionado]); // Recarrega quando ano mudar
 
+  useEffect(() => {
+    return () => {
+      // Cleanup: destruir o chart quando o componente desmontar
+      if (chartRef.current) {
+        chartRef.current.destroy();
+        chartRef.current = null;
+      }
+    };
+  }, []);
+
   if (loading) return <div>Carregando gráfico...</div>;
   if (!chartData) return <div>Erro ao carregar dados</div>;
 
   return (
     <Bar
+      ref={chartRef}
       data={chartData}
       plugins={[imagePlugin]}
       options={{
