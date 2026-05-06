@@ -68,10 +68,19 @@ df['visitante_Placar'] = pd.to_numeric(df['visitante_Placar'], errors='coerce')
 #==========================
 #VITORIAS, EMPATES, DERROTAS
 #==========================
-df['vitorias'] = (df['mandante_Placar'] > df['visitante_Placar']).astype(int) + (df['visitante_Placar'] > df['mandante_Placar']).astype(int)
-df['empates'] = (df['mandante_Placar'] == df['visitante_Placar']).astype(int)
-df['derrotas'] = (df['mandante_Placar'] < df['visitante_Placar']).astype(int) + (df['visitante_Placar'] < df['mandante_Placar']).astype(int)
+# =========================
+# VITORIAS / EMPATES / DERROTAS
+# =========================
 
+# mandante
+df['vitorias_m'] = (df['mandante_Placar'] > df['visitante_Placar']).astype(int)
+df['empates_m']  = (df['mandante_Placar'] == df['visitante_Placar']).astype(int)
+df['derrotas_m'] = (df['mandante_Placar'] < df['visitante_Placar']).astype(int)
+
+# visitante
+df['vitorias_v'] = (df['visitante_Placar'] > df['mandante_Placar']).astype(int)
+df['empates_v']  = (df['visitante_Placar'] == df['mandante_Placar']).astype(int)
+df['derrotas_v'] = (df['visitante_Placar'] < df['mandante_Placar']).astype(int)
 # =========================
 # PONTOS
 # =========================
