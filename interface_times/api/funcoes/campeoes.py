@@ -109,6 +109,9 @@ tabela_final = tabela_df.groupby(['temporada', 'time', 'id', 'escudo'], as_index
     'pontos': 'sum',
     'gols_pro': 'sum',
     'gols_tomados': 'sum',
+    'vitorias': 'sum',
+    'empates': 'sum',
+    'derrotas': 'sum',
     'rodada': 'max'
 })
 
@@ -129,7 +132,7 @@ def tabela_ano(temporada):
         return pd.DataFrame()
 
     tabela = tabela.sort_values(
-        ['pontos', 'saldo', 'gols_pro'],
+        ['pontos', 'saldo', 'gols_pro', 'gols_tomados', 'vitorias', 'empates', 'derrotas'],
         ascending=[False, False, False]
     )
 
@@ -148,13 +151,13 @@ def obter_campeao(temporada):
         return None
 
     campeao = tabela.iloc[0]
-
+##################### retorno da tabela
     return {
         'temporada': int(campeao['temporada']),
         'time': campeao['time'],
         'id': int(campeao['id']),
         'vitorias': int(campeao['vitorias']),
-        'empates': int(campeao['empates']),
+        'empates':  int(campeao['empates']),
         'derrotas': int(campeao['derrotas']),
         'pontos': int(campeao['pontos']),
         'gols_pro': int(campeao['gols_pro']),
