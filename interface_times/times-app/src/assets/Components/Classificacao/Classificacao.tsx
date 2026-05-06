@@ -5,6 +5,9 @@ interface TimeClassificacao {
   posicao: number;
   time: string;
   id: number;
+  vitorias: number;
+  empates: number;
+  derrotas: number;
   temporada: number;
   pontos: number;
   gols_pro: number;
@@ -68,6 +71,7 @@ export default function Classificacao({ anoSelecionado }: ClassificacaoProps) {
             <tr>
               <th className="col-posicao">Pos</th>
               <th className="col-time">Time</th>
+              <th className="col-pontos">Pts</th>
               <th className="col-numero">J</th>
               <th className="col-numero">V</th>
               <th className="col-numero">E</th>
@@ -75,7 +79,6 @@ export default function Classificacao({ anoSelecionado }: ClassificacaoProps) {
               <th className="col-numero">GF</th>
               <th className="col-numero">GC</th>
               <th className="col-numero">SG</th>
-              <th className="col-pontos">Pts</th>
             </tr>
           </thead>
           <tbody>
@@ -85,13 +88,8 @@ export default function Classificacao({ anoSelecionado }: ClassificacaoProps) {
                 // Por enquanto, você pode usar a rodada como aproximação de jogos
                 const jogos = Math.round(time.rodada);
                 
-                // Nota: vitórias, empates e derrotas não estão na API ainda
-                // Isso será ajustado quando você modificar a API
-                const vitoria = 0; // Placeholder
-                const empate = 0;  // Placeholder
-                const derrota = 0; // Placeholder
 
-                const isTopTres = index < 3;
+                const isTopTres = index < 4;
                 const isRebaixamento = index >= 17;
 
                 return (
@@ -103,7 +101,6 @@ export default function Classificacao({ anoSelecionado }: ClassificacaoProps) {
                     `}
                   >
                     <td className="col-posicao">
-                      {isTopTres && <span className="medalha">{'🥇🥈🥉'[index]}</span>}
                       <span className="numero-posicao">{time.posicao}</span>
                     </td>
                     
@@ -122,10 +119,11 @@ export default function Classificacao({ anoSelecionado }: ClassificacaoProps) {
                       </div>
                     </td>
                     
-                    <td className="col-numero">{jogos}</td>
-                    <td className="col-numero vitoria">{time.vitoria}</td>
-                    <td className="col-numero empate">{empate}</td>
-                    <td className="col-numero derrota">{derrota}</td>
+                    <td className="col-pontos"><strong>{time.pontos}</strong></td>
+                    <td className="col-numero">{time.rodada}</td>
+                    <td className="col-numero vitoria">{time.vitorias}</td>
+                    <td className="col-numero empate">{time.empates}</td>
+                    <td className="col-numero derrota">{time.derrotas}</td>
                     <td className="col-numero">{time.gols_pro}</td>
                     <td className="col-numero">{time.gols_tomados}</td>
                     <td className="col-numero saldo">
@@ -133,7 +131,6 @@ export default function Classificacao({ anoSelecionado }: ClassificacaoProps) {
                         {time.saldo > 0 ? '+' : ''}{time.saldo}
                       </span>
                     </td>
-                    <td className="col-pontos"><strong>{time.pontos}</strong></td>
                   </tr>
                 );
               })
