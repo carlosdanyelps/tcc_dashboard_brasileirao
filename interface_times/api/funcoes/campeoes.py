@@ -97,14 +97,14 @@ df['pontos_v'] = (
 # =========================
 # MANDANTES
 # =========================
-mandantes = df[['temporada', 'mandante', 'mandante_id', 'pontos_m', 'mandante_Placar', 'visitante_Placar', 'escudo_m', 'rodata']].copy()
-mandantes.columns = ['temporada', 'time', 'id', 'pontos', 'gols_pro', 'gols_tomados', 'escudo', 'rodada']
+mandantes = df[['temporada', 'mandante', 'mandante_id', 'pontos_m', 'vitorias_m', 'empates_m', 'derrotas_m', 'mandante_Placar', 'visitante_Placar', 'escudo_m', 'rodata']].copy()
+mandantes.columns = ['temporada', 'time', 'id', 'pontos', 'vitorias', 'empates', 'derrotas', 'gols_pro', 'gols_tomados', 'escudo', 'rodada']
 
 # =========================
 # VISITANTES
 # =========================
-visitantes = df[['temporada', 'visitante', 'visitante_id', 'pontos_v', 'visitante_Placar', 'mandante_Placar', 'escudo_v', 'rodata']].copy()
-visitantes.columns = ['temporada', 'time', 'id', 'pontos', 'gols_pro', 'gols_tomados', 'escudo', 'rodada']
+visitantes = df[['temporada', 'visitante', 'visitante_id', 'pontos_v', 'vitorias_v', 'empates_v', 'derrotas_v', 'visitante_Placar', 'mandante_Placar', 'escudo_v', 'rodata']].copy()
+visitantes.columns = ['temporada', 'time', 'id', 'pontos', 'vitorias', 'empates', 'derrotas', 'gols_pro', 'gols_tomados', 'escudo', 'rodada']
 
 # =========================
 # JUNTAR
