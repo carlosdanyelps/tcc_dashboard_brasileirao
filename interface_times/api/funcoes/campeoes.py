@@ -64,6 +64,14 @@ df = df.drop_duplicates(subset='id_jogo')
 df['mandante_Placar'] = pd.to_numeric(df['mandante_Placar'], errors='coerce')
 df['visitante_Placar'] = pd.to_numeric(df['visitante_Placar'], errors='coerce')
 
+
+#==========================
+#VITORIAS, EMPATES, DERROTAS
+#==========================
+df['vitorias'] = (df['mandante_Placar'] > df['visitante_Placar']).astype(int) + (df['visitante_Placar'] > df['mandante_Placar']).astype(int)
+df['empates'] = (df['mandante_Placar'] == df['visitante_Placar']).astype(int)
+df['derrotas'] = (df['mandante_Placar'] < df['visitante_Placar']).astype(int) + (df['visitante_Placar'] < df['mandante_Placar']).astype(int)
+
 # =========================
 # PONTOS
 # =========================
