@@ -2,12 +2,13 @@ import pandas as pd
 import sys
 import os
 
-# Garantir path correto
+# =========================
+# PATH
+# =========================
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from funcoes.ID import adicionar_ids
 from escudos.cor import cor, bordaCor
-
 
 # =========================
 # CARREGAR DADOS
@@ -23,29 +24,30 @@ df = adicionar_ids(df)
 df['data'] = pd.to_datetime(df['data'], format='%Y-%m-%d', errors='coerce')
 df['ano_civil'] = df['data'].dt.year
 
-# URL base para escudo
+# =========================
+# ESCUDOS
+# =========================
 url_escudo_base = 'http://localhost:5000/escudo/'
-
 df['escudo_m'] = url_escudo_base + df['mandante_id'].astype(str)
 df['escudo_v'] = url_escudo_base + df['visitante_id'].astype(str)
 
 # =========================
-# DEFINIR TEMPORADA
+# TEMPORADA
 # =========================
 def definir_temporada(row):
     if pd.isna(row['rodata']):
         return row['ano_civil']
 
     rodata = row['rodata']
-    ano_civil = row['ano_civil']
+    ano = row['ano_civil']
 
-    if ano_civil == 2021 and rodata >= 28.0:
+    if ano == 2021 and rodata >= 28:
         return 2020
 
-    if ano_civil == 2020 and 1.0 <= rodata <= 27.0:
+    if ano == 2020 and 1 <= rodata <= 27:
         return 2020
 
-    return ano_civil
+    return ano
 
 df['temporada'] = df.apply(definir_temporada, axis=1)
 
@@ -59,28 +61,22 @@ df['id_jogo'] = df['partida_id'].fillna(
 df = df.drop_duplicates(subset='id_jogo')
 
 # =========================
-# TRATAR PLACARES
+# PLACARES
 # =========================
 df['mandante_Placar'] = pd.to_numeric(df['mandante_Placar'], errors='coerce')
 df['visitante_Placar'] = pd.to_numeric(df['visitante_Placar'], errors='coerce')
 
-
-#==========================
-#VITORIAS, EMPATES, DERROTAS
-#==========================
 # =========================
-# VITORIAS / EMPATES / DERROTAS
+# VITÓRIAS / EMPATES / DERROTAS
 # =========================
-
-# mandante
 df['vitorias_m'] = (df['mandante_Placar'] > df['visitante_Placar']).astype(int)
 df['empates_m']  = (df['mandante_Placar'] == df['visitante_Placar']).astype(int)
 df['derrotas_m'] = (df['mandante_Placar'] < df['visitante_Placar']).astype(int)
 
-# visitante
 df['vitorias_v'] = (df['visitante_Placar'] > df['mandante_Placar']).astype(int)
 df['empates_v']  = (df['visitante_Placar'] == df['mandante_Placar']).astype(int)
 df['derrotas_v'] = (df['visitante_Placar'] < df['mandante_Placar']).astype(int)
+
 # =========================
 # PONTOS
 # =========================
@@ -97,24 +93,49 @@ df['pontos_v'] = (
 # =========================
 # MANDANTES
 # =========================
-mandantes = df[['temporada', 'mandante', 'mandante_id', 'pontos_m', 'vitorias_m', 'empates_m', 'derrotas_m', 'mandante_Placar', 'visitante_Placar', 'escudo_m', 'rodata']].copy()
-mandantes.columns = ['temporada', 'time', 'id', 'pontos', 'vitorias', 'empates', 'derrotas', 'gols_pro', 'gols_tomados', 'escudo', 'rodada']
+mandantes = df[[
+    'temporada', 'mandante', 'mandante_id',
+    'pontos_m', 'vitorias_m', 'empates_m', 'derrotas_m',
+    'mandante_Placar', 'visitante_Placar',
+    'escudo_m', 'rodata'
+]].copy()
+
+mandantes.columns = [
+    'temporada', 'time', 'id',
+    'pontos', 'vitorias', 'empates', 'derrotas',
+    'gols_pro', 'gols_tomados',
+    'escudo', 'rodada'
+]
 
 # =========================
 # VISITANTES
 # =========================
-visitantes = df[['temporada', 'visitante', 'visitante_id', 'pontos_v', 'vitorias_v', 'empates_v', 'derrotas_v', 'visitante_Placar', 'mandante_Placar', 'escudo_v', 'rodata']].copy()
-visitantes.columns = ['temporada', 'time', 'id', 'pontos', 'vitorias', 'empates', 'derrotas', 'gols_pro', 'gols_tomados', 'escudo', 'rodada']
+visitantes = df[[
+    'temporada', 'visitante', 'visitante_id',
+    'pontos_v', 'vitorias_v', 'empates_v', 'derrotas_v',
+    'visitante_Placar', 'mandante_Placar',
+    'escudo_v', 'rodata'
+]].copy()
+
+visitantes.columns = [
+    'temporada', 'time', 'id',
+    'pontos', 'vitorias', 'empates', 'derrotas',
+    'gols_pro', 'gols_tomados',
+    'escudo', 'rodada'
+]
 
 # =========================
 # JUNTAR
 # =========================
-tabela_df = pd.concat([mandantes, visitantes])
+tabela_df = pd.concat([mandantes, visitantes], ignore_index=True)
 
 # =========================
 # AGRUPAR
 # =========================
-tabela_final = tabela_df.groupby(['temporada', 'time', 'id', 'escudo'], as_index=False).agg({
+tabela_final = tabela_df.groupby(
+    ['temporada', 'time', 'id', 'escudo'],
+    as_index=False
+).agg({
     'pontos': 'sum',
     'gols_pro': 'sum',
     'gols_tomados': 'sum',
@@ -125,14 +146,14 @@ tabela_final = tabela_df.groupby(['temporada', 'time', 'id', 'escudo'], as_index
 })
 
 # =========================
-# SALDO
+# SALDO + CORES
 # =========================
 tabela_final['saldo'] = tabela_final['gols_pro'] - tabela_final['gols_tomados']
 tabela_final['cor'] = tabela_final['time'].apply(cor)
 tabela_final['bordaCor'] = tabela_final['time'].apply(bordaCor)
 
 # =========================
-# FUNÇÃO PRINCIPAL (CORRIGIDA)
+# CLASSIFICAÇÃO
 # =========================
 def tabela_ano(temporada):
     tabela = tabela_final[tabela_final['temporada'] == temporada].copy()
@@ -142,7 +163,7 @@ def tabela_ano(temporada):
 
     tabela = tabela.sort_values(
         ['pontos', 'saldo', 'gols_pro', 'gols_tomados', 'vitorias', 'empates', 'derrotas'],
-        ascending=[False, False, False]
+        ascending=[False, False, False, True, False, False, True]
     )
 
     tabela = tabela.head(20)
@@ -160,13 +181,13 @@ def obter_campeao(temporada):
         return None
 
     campeao = tabela.iloc[0]
-##################### retorno da tabela
+
     return {
         'temporada': int(campeao['temporada']),
         'time': campeao['time'],
         'id': int(campeao['id']),
         'vitorias': int(campeao['vitorias']),
-        'empates':  int(campeao['empates']),
+        'empates': int(campeao['empates']),
         'derrotas': int(campeao['derrotas']),
         'pontos': int(campeao['pontos']),
         'gols_pro': int(campeao['gols_pro']),
@@ -183,16 +204,11 @@ def obter_campeao(temporada):
 # =========================
 def obter_todos_campeoes():
     temporadas = sorted(tabela_final['temporada'].unique())
-    campeoes = []
+    return [c for t in temporadas if (c := obter_campeao(t))]
 
-    for temporada in temporadas:
-        campeao = obter_campeao(temporada)
-        if campeao:
-            campeoes.append(campeao)
-
-    return campeoes
-
-
+# =========================
+# TABELA POR TIME
+# =========================
 def tabela_time_ano(time, temporada):
     tabela = tabela_final[
         (tabela_final['temporada'] == temporada) &
@@ -202,7 +218,6 @@ def tabela_time_ano(time, temporada):
     if tabela.empty:
         return pd.DataFrame()
 
-    # ordenar igual classificação
     tabela_temp = tabela_final[tabela_final['temporada'] == temporada].copy()
 
     tabela_temp = tabela_temp.sort_values(
@@ -212,14 +227,10 @@ def tabela_time_ano(time, temporada):
 
     tabela_temp['posicao'] = range(1, len(tabela_temp) + 1)
 
-    # pegar posição do time
     posicao = tabela_temp[
         tabela_temp['time'].str.lower() == time.lower()
     ]['posicao']
 
-    if not posicao.empty:
-        tabela['posicao'] = int(posicao.values[0])
-    else:
-        tabela['posicao'] = None
+    tabela['posicao'] = int(posicao.values[0]) if not posicao.empty else None
 
     return tabela
