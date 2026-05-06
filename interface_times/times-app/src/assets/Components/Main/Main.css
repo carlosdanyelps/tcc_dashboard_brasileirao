@@ -21,7 +21,14 @@
     width: 50%;
 }
 
-.aside-content {
+.graphic-session {
+    background-color: rgb(235, 235, 235);
+    height: 100%;
+    width: 100%;
+    padding: 1rem;
+}
+
+.timelist {
     display: flex;
     flex: 1;
     /* flex-direction: column; */
@@ -31,10 +38,7 @@
     /* border: 1px solid #9f9f9f73; */
 }
 
-
-.graphic-session {
-    background-color: rgb(235, 235, 235);
+.table {
+    width: 50%;
     height: 100%;
-    width: 100%;
-    padding: 1rem;
 }
