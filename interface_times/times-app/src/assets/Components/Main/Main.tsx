@@ -3,6 +3,7 @@
 import './Main.css'
 import TimeList from '../TimeList/TimeList';
 import PontosTemp from '../graphics/PontosTemp/PontosTemp';
+import Classificacao from '../Classificacao/Classificacao';
 
 interface MainProps {
   anoSelecionado: number;
@@ -22,6 +23,7 @@ const Main = ({ anoSelecionado }: MainProps) => {
           </div>
         </div>
         <div className="table">
+          <Classificacao anoSelecionado={anoSelecionado} />
         </div>
       </div>
     );  

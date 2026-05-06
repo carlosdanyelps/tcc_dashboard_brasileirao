@@ -1,6 +1,6 @@
 .main {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     /* gap: 4px; */
     /* flex-direction: column; */
     /* align-items: center; */
@@ -14,6 +14,12 @@
     /* border-radius: 2em; */
 }
 
+.main-content {
+    /* background-color: rgba(243, 243, 243, 0.418); */
+    /* border: 1px solid #9f9f9f73; */
+    height: 50%;
+    width: 50%;
+}
 
 .aside-content {
     display: flex;
@@ -25,12 +31,6 @@
     /* border: 1px solid #9f9f9f73; */
 }
 
-.main-content {
-    /* background-color: rgba(243, 243, 243, 0.418); */
-    /* border: 1px solid #9f9f9f73; */
-    height: 50%;
-    width: 50%;
-}
 
 .graphic-session {
     background-color: rgb(235, 235, 235);
