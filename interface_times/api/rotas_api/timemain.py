@@ -166,6 +166,12 @@ def resumo_time():
     ].shape[0]
 
     total_derrotas = derrotas_mandante + derrotas_visitante
+    #======================
+    #empates
+    #======================
+    empates_mandante = df[time == df['mandante']][df['mandante_Placar'] == df['visitante_Placar']].shape[0]
+    empates_visitante = df[time == df['visitante']][df['visitante_Placar'] == df['mandante_Placar']].shape[0]
+    total_empates = empates_mandante + empates_visitante
 
     # =====================
     # TÍTULOS
@@ -219,6 +225,7 @@ def resumo_time():
         'gols': int(total_gols),
         'vitorias': int(total_vitorias),
         'derrotas': int(total_derrotas),
+        'empate': int(total_empates),
         'titulos_brasileirao': int(titulos),
         'rebaixamentos': rebaixamentos,
         'URL escudo': f'http://localhost:5000/escudo/{id_time}'  # Exemplo de URL para escudo
