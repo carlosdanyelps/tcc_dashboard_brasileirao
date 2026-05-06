@@ -8,8 +8,8 @@ interface TimeData {
   ano: number;
 }
 
-function App() {
-  const [anoSelecionado, setAnoSelecionado] = useState<number>(2024);
+export function App() {
+  const [anoSelecionado, setAnoSelecionado] = useState<number>(2025);
   const dados: TimeData[] = [
     { ano: 2003 },
     { ano: 2004 },
@@ -33,6 +33,7 @@ function App() {
     { ano: 2022 },
     { ano: 2023 },
     { ano: 2024 },
+    { ano: 2025 },
   ];
 
   const handleAnoChange = (ano: number) => {
