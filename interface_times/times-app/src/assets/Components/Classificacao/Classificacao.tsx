@@ -63,7 +63,7 @@ export default function Classificacao({ anoSelecionado }: ClassificacaoProps) {
 
   return (
     <div className="classificacao-container">
-      <h1 className="classificacao-titulo">Classificação Série A</h1>
+      {/* <h1 className="classificacao-titulo">Classificação Série A</h1> */}
       
       <div className="tabela-wrapper">
         <table className="classificacao-tabela">
