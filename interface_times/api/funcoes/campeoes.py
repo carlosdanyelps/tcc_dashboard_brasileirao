@@ -16,7 +16,9 @@ from escudos.cor import cor, bordaCor
 caminho_csv = os.path.join(os.path.dirname(__file__), 'campeonato-brasileiro-full.csv')
 df = pd.read_csv(caminho_csv)
 
+
 df = adicionar_ids(df)
+df['rodata'] = pd.to_numeric(df['rodata'], errors='coerce')
 
 # =========================
 # TRATAR DATAS
