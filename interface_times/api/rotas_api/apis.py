@@ -29,7 +29,7 @@ def get_tabela():
     time = request.args.get('time')
 
     # =========================
-    # SEM PARÂMETROS → CAMPEÕES
+    # para retornar a tavela geral sem especificação
     # =========================
     if not ano and not time:
         campeoes = campeoes_geral.to_dict(orient='records')
