@@ -88,6 +88,7 @@ const PontosTemp = ({ anoSelecionado }: PontosTempProps) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const url = `http://127.0.0.1:5000/tabela?ano=${anoSelecionado}`;
         const response = await fetch(url);
