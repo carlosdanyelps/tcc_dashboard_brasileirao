@@ -43,6 +43,11 @@ def confrontos(time1, time2):
         (confronto_direto['mandante_Placar'] > confronto_direto['visitante_Placar'])
     ].shape[0]
 
+    vitorias_time1_visitante = confronto_direto[
+        (confronto_direto['visitante'] == time1) &
+        (confronto_direto['visitante_Placar'] > confronto_direto['mandante_Placar'])
+    ].shape[0]
+
     gols_time1 = (
         confronto_direto[
             confronto_direto['mandante'] == time1
@@ -70,6 +75,11 @@ def confrontos(time1, time2):
         (confronto_direto['mandante_Placar'] > confronto_direto['visitante_Placar'])
     ].shape[0]
 
+    vitorias_time2_visitante = confronto_direto[
+        (confronto_direto['visitante'] == time2) &
+        (confronto_direto['visitante_Placar'] > confronto_direto['mandante_Placar'])
+    ].shape[0]
+
     gols_time2 = (
         confronto_direto[
             confronto_direto['mandante'] == time2
@@ -86,18 +96,19 @@ def confrontos(time1, time2):
     ].shape[0]
 
     return {
+        'Time 1': time1,
+        'Time 2': time2,
         'numero_confrontos': int(numero_confrontos),
         'gols_time1': int(gols_time1),
         'gols_time2': int(gols_time2),
         'vitorias_time1': int(vitorias_time1),
         'vitorias_time1_mandante': int(vitorias_time1_mandante),
+        'vitorias_time1_visitante': int(vitorias_time1_visitante),
         'vitorias_time2': int(vitorias_time2),
         'vitorias_time2_mandante': int(vitorias_time2_mandante),
+        'vitorias_time2_visitante': int(vitorias_time2_visitante),
         'empates': int(empates)
     }
-
-
-
 
 
 app = Flask(__name__)
