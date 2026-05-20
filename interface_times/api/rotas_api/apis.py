@@ -12,7 +12,8 @@ from escudos.API_escudos import escudo
 from funcoes.estatistica import pontuacao_final_por_temporada, mid_derrota, mid_gol, mid_vitoria, mid_empate
 from escudos.cor import cor, bordaCor
 from tmp import classificacao_por_rodada
-
+from funcoes.confronto import confrontos
+from timemain import comparar_times
 
 df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'campeonato-brasileiro-full.csv'))
 
@@ -132,6 +133,21 @@ def get_estatisticas():
     return jsonify(estatisticas)
 
 ####################################comparação geral dos times#####################################
+#######################(((((((CONFRONTOS DIRETOS)))))))########################
+
+@app.route("/comp",methods=['GET'])
+def comp():
+    time1 = request.args.get('time1')
+    time2 = request.args.get('time2')
+    resultado = confrontos(time1, time2)
+    return jsonify(resultado)
+
+@app.route("/comp/geral",methods=['GET'])
+def comp_geral():
+    time1 = request.args.get('time1')
+    time2 = request.args.get('time2')
+    resultado = comparar_times(time1, time2)
+    return jsonify(resultado)
 
 
 if __name__ == '__main__':

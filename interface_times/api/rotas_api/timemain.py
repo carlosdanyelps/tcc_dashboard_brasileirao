@@ -231,6 +231,49 @@ def resumo_time():
         'URL escudo': f'http://localhost:5000/escudo/{id_time}'  # Exemplo de URL para escudo
     })
 
+def comparar_times(time1, time2):
+
+    if time1 not in all_times:
+        return {'erro': f'{time1} não encontrado'}
+
+    if time2 not in all_times:
+        return {'erro': f'{time2} não encontrado'}
+
+    dados_time1 = build_time_summary(time1)
+    dados_time2 = build_time_summary(time2)
+
+    return {
+        'times': [
+            {
+                'ID': dados_time1['ID'],
+                'nome': dados_time1['time'],
+                'escudo': dados_time1['URL escudo'],
+                'cor': dados_time1['cor'],
+                'bordaCor': dados_time1['bordaCor'],
+                'vitorias': dados_time1['vitorias'],
+                'derrotas': dados_time1['derrotas'],
+                'empates': dados_time1['empates'],
+                'gols': dados_time1['gols'],
+                'titulos': dados_time1['titulos_brasileirao'],
+                'rebaixamentos': dados_time1['rebaixamentos']
+            },
+            {
+                'ID': dados_time2['ID'],
+                'nome': dados_time2['time'],
+                'escudo': dados_time2['URL escudo'],
+                'cor': dados_time2['cor'],
+                'bordaCor': dados_time2['bordaCor'],
+                'vitorias': dados_time2['vitorias'],
+                'derrotas': dados_time2['derrotas'],
+                'empates': dados_time2['empates'],
+                'gols': dados_time2['gols'],
+                'titulos': dados_time2['titulos_brasileirao'],
+                'rebaixamentos': dados_time2['rebaixamentos']
+            }
+        ]
+    }
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
