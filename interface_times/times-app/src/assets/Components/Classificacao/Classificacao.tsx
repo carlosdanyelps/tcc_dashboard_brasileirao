@@ -90,7 +90,7 @@ export default function Classificacao({ anoSelecionado }: ClassificacaoProps) {
                 
 
                 const isTopTres = index < 4;
-                const isRebaixamento = index >= 17;
+                const isRebaixamento = index >= 16;
 
                 return (
                   <tr
@@ -146,8 +146,8 @@ export default function Classificacao({ anoSelecionado }: ClassificacaoProps) {
       </div>
 
       <div className="classificacao-legenda">
-        <div className="legenda-item top-tres">🥇 Libertadores</div>
-        <div className="legenda-item rebaixamento">📉 Rebaixamento</div>
+        <div className="legenda-item top-tres"><aside className="libertadores"></aside> Libertadores</div>
+        <div className="legenda-item rebaixamento"><aside className="rebaixado"></aside> Rebaixamento</div>
       </div>
     </div>
   );
