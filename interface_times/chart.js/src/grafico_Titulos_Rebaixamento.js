@@ -15,12 +15,14 @@ import Chart from 'chart.js/auto';
                 {
                     label: json1.time,
                     data: [json1.titulos_brasileirao, json1.rebaixamentos.length],
-                    backgroundColor: 'red'
+                    backgroundColor: json1.cor,
+                    borderColor: json1.bordaCor
                 },
                 {
                     label: json2.time,
                     data: [json2.titulos_brasileirao, json2.rebaixamentos.length],
-                    backgroundColor: 'blue'
+                    backgroundColor: json2.cor,
+                    borderColor: json2.bordaCor
                 }
             ]
         };
@@ -29,15 +31,38 @@ import Chart from 'chart.js/auto';
             type: 'bar',
             data: chartData,
             options: {
+                animation: {
+                    duration: 1200,
+                    easing: 'easeInOutQuart'
+                },
                 plugins: {
                     legend: {
-                        labels: { padding: 15 }
+                        labels: { padding: 15, font: { size: 14, weight: 'bold' }, usePointStyle: true }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Títulos e Rebaixamentos',
+                        font: { size: 16, weight: 'bold' },
+                        padding: { bottom: 15 }
+                    },
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'end',
+                        color: (context) => context.dataset.borderColor,
+                        font: { weight: 'bold', size: 12 },
+                        formatter: (value) => value
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: Math.max(json1.titulos_brasileirao, json2.titulos_brasileirao) + 2
                     }
                 }
             }
         };
 
-        const ctx = document.getElementById('grafico_API_4');
+        const ctx = document.getElementById('grafico_Titulos_Rebaixamento');
         if (!ctx) {
             console.error('Canvas "grafico_API_4" não encontrado');
             return;

@@ -18,7 +18,7 @@ import Chart from 'chart.js/auto';
         const valores = dadosApi.map(item => item.pontos);
 
         new Chart(
-            document.getElementById('grafico_API'),
+            document.getElementById('grafico_Campeoes'),
             {
                 type: 'bar',
                 data: {
@@ -33,6 +33,10 @@ import Chart from 'chart.js/auto';
                 },
                 options: {
                     responsive: true,
+                    animation: {
+                        duration: 1200,
+                        easing: 'easeInOutQuart'
+                    },
                     plugins: {
                         tooltip: {
                             callbacks: { 
@@ -49,7 +53,8 @@ import Chart from 'chart.js/auto';
                                     return ` Time: ${time} | Pontos: ${pts}`;
                                 }
                             }
-                        }
+                        },
+                        datalabels: { display: false }
                     }
                 }
             }

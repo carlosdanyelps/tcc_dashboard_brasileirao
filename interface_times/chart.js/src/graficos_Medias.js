@@ -16,15 +16,15 @@ import Chart from 'chart.js/auto';
                 {
                     label: json1.time,
                     data: [json1.média_empates, json1.média_vitórias, json1.média_derrotas],
-                    borderColor: 'rgb(75, 192, 192)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: json1.cor,
+                    backgroundColor: json1.bordaCor,
                     borderWidth: 4
                 },
                 {
                     label: json2.time,
                     data: [json2.média_empates, json2.média_vitórias, json2.média_derrotas],
-                    borderColor: 'rgb(255, 99, 132)',
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: json2.cor,
+                    backgroundColor: json2.bordaCor,
                     borderWidth: 4
                 }
             ]
@@ -34,6 +34,10 @@ import Chart from 'chart.js/auto';
             type: 'radar',
             data: chartData,
             options: {
+                animation: {
+                    duration: 1200,
+                    easing: 'easeInOutQuart'
+                },
                 responsive: true,
                 plugins: {
                     legend: {
@@ -61,7 +65,8 @@ import Chart from 'chart.js/auto';
                                 return context.dataset.label + ': ' + context.parsed.r;
                             }
                         }
-                    }
+                    },
+                    datalabels: { display: false }
                 },
                 scales: {
                     r: {
@@ -82,7 +87,7 @@ import Chart from 'chart.js/auto';
             }
         };
 
-        const ctx = document.getElementById('graficos_API3');
+        const ctx = document.getElementById('graficos_Medias');
         const myChart = new Chart(ctx, config)
 
 

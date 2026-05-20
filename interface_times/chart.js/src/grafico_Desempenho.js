@@ -16,16 +16,16 @@ import Chart from 'chart.js/auto';
                 {
                     label: json1.time,
                     data: json1.pontos_por_temporada, 
-                    borderColor: 'rgb(75, 192, 192)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: json1.cor,
+                    backgroundColor: json1.bordaCor,
                     tension: 0.3,
                     fill: true
                 },
                 {   
                     label: json2.time,
                     data: json2.pontos_por_temporada,
-                    borderColor: 'rgb(255, 99, 132)',
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor:  json2.cor,
+                    backgroundColor: json2.bordaCor,
                     tension: 0.3,
                     fill: true
                 }
@@ -41,8 +41,10 @@ import Chart from 'chart.js/auto';
                     legend: { position: 'top' },
                     title: {
                         display: true,
-                        text: 'Comparativo de Desempenho'
-                    }
+                        text: 'Comparativo de Desempenho',
+                        font: { size: 16, weight: 'bold' }
+                    },
+                    datalabels: { display: false }
                 },
                 scales: {
                     y: {
@@ -56,7 +58,7 @@ import Chart from 'chart.js/auto';
             }
         };
 
-        const ctx = document.getElementById('grafico_API2');
+        const ctx = document.getElementById('grafico_Desempenho');
         if (!ctx) {
             console.error('Canvas "grafico_API2" não encontrado');
             return;
