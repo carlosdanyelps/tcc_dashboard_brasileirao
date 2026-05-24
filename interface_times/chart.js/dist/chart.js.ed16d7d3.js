@@ -722,10 +722,12 @@ var _autoDefault = parcelHelpers.interopDefault(_auto);
         const top4Response = await fetch('http://127.0.0.1:5000/tabela?ano=2010&limit=4');
         const top4 = await top4Response.json();
         if (!Array.isArray(top4) || top4.length === 0) throw new Error('Nenhum time top 4 retornado da API');
-        const top4Times = top4.map((item)=>item.time);
+        const top4Times = top4.slice(0, 4).map((item)=>item.time);
         const response = await fetch('http://127.0.0.1:5000/tabela/rodada?ano=2010');
-        const json = await response.json();
-        if (!Array.isArray(json) || json.length === 0) throw new Error('Nenhum dado retornado da API de rodadas');
+        const allData = await response.json();
+        if (!Array.isArray(allData) || allData.length === 0) throw new Error('Nenhum dado retornado da API de rodadas');
+        // Filtrar apenas dados dos 4 primeiros times
+        const json = allData.filter((item)=>top4Times.includes(item.time));
         const rodadas = Array.from(new Set(json.map((item)=>item.rodada))).sort((a, b)=>a - b);
         const teamsWithColors = top4.reduce((acc, item)=>{
             acc[item.time] = {
@@ -767,7 +769,7 @@ var _autoDefault = parcelHelpers.interopDefault(_auto);
                 plugins: {
                     title: {
                         display: true,
-                        text: "Posi\xe7\xe3o por Rodada - Todos os Times",
+                        text: "Posi\xe7\xe3o por Rodada - Top 4 Times",
                         font: {
                             size: 16,
                             weight: 'bold'
@@ -786,9 +788,7 @@ var _autoDefault = parcelHelpers.interopDefault(_auto);
                         reverse: true,
                         min: 1,
                         max: 20,
-                        ticks: {
-                            stepSize: 1
-                        },
+                        autoSkip: false,
                         title: {
                             display: true,
                             text: "Posi\xe7\xe3o"

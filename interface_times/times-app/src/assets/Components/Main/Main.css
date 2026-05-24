@@ -32,7 +32,7 @@
     display: flex;
     flex: 1;
     /* flex-direction: column; */
-    height: 50%;
+    height: 100%;
     width: 100%;
     background-color: rgba(243, 243, 243, 0.514);
     /* border: 1px solid #9f9f9f73; */

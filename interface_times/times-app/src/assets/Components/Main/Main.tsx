@@ -1,7 +1,7 @@
 'use client';
 
 import './Main.css'
-import TimeList from '../TimeList/TimeList';
+import ComparativosTimes from '../graphics/ComparativoTimes/ComparativosTimes.tsx';
 import PontosTemp from '../graphics/PontosTemp/PontosTemp';
 import Classificacao from '../Classificacao/Classificacao';
 
@@ -19,7 +19,7 @@ const Main = ({ anoSelecionado }: MainProps) => {
               <PontosTemp anoSelecionado={anoSelecionado} />
           </div>
           <div className='timelist'>
-              <TimeList anoSelecionado={anoSelecionado} />
+              <ComparativosTimes anoSelecionado={anoSelecionado} />
           </div>
         </div>
         <div className="table">
