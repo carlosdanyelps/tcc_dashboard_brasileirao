@@ -18,7 +18,7 @@ const Main = ({ anoSelecionado }: MainProps) => {
           <div className='graphic-session'>
               <PontosTemp anoSelecionado={anoSelecionado} />
           </div>
-          <div className='timelist'>
+          <div className='top4-session'>
               <ComparativosTimes anoSelecionado={anoSelecionado} />
           </div>
         </div>
