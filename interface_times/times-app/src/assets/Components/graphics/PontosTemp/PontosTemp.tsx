@@ -157,8 +157,17 @@ const PontosTemp = ({ anoSelecionado }: PontosTempProps) => {
                 grace: '30%'
             }
         },
+        
         responsive: true,
         maintainAspectRatio: false,
+        animations: {
+          tension: {
+            duration: 1000,
+            easing: "easeInOutQuad",
+            from: 0.5,
+            to: 0,
+            loop: false,}
+        },
         plugins: {
           tooltip: {
             callbacks: {
