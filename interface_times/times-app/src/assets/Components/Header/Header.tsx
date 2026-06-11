@@ -20,6 +20,13 @@ const Header = ({ dados, onAnoChange, anoSelecionado }: HeaderProps) => {
       <div className="header-logo">
         <h1>LS</h1>
       </div>
+      <nav className="navbar">
+        <ul>
+          <li><a href="">Home</a></li>
+          <li>Classificação</li>
+          <li><a href="Graficos.tsx">Gráficos</a></li>       
+        </ul>
+      </nav>
       <SeletorTemp dados={dados} onAnoChange={onAnoChange} anoSelecionado={anoSelecionado} />
     </header>
   )
