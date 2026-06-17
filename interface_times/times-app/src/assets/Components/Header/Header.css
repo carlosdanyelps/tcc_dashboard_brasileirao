@@ -42,6 +42,7 @@ html {
     border-bottom: 2px solid rgba(255, 255, 255, 0);
     transition: border .3s ease-out;
     box-sizing: content-box;
+    cursor: pointer;
 }
 
 .navbar > Ul > li:hover {

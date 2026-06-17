@@ -22,9 +22,9 @@ const Header = ({ dados, onAnoChange, anoSelecionado }: HeaderProps) => {
       </div>
       <nav className="navbar">
         <ul>
-          <li><a href="">Home</a></li>
+          <li>Home</li>
           <li>Classificação</li>
-          <li><a href="Graficos.tsx">Gráficos</a></li>       
+          <li>Gráficos</li>       
         </ul>
       </nav>
       <SeletorTemp dados={dados} onAnoChange={onAnoChange} anoSelecionado={anoSelecionado} />
