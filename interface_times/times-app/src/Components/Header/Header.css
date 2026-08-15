@@ -45,6 +45,11 @@ html {
     cursor: pointer;
 }
 
+.navbar > ul > li > a {
+    color: white;
+    text-decoration: none;
+}
+
 .navbar > Ul > li:hover {
     border-bottom: 2px solid #58626c;
     box-sizing: content-box;

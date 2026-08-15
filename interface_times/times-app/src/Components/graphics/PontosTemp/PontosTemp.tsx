@@ -73,13 +73,14 @@ const PontosTemp = ({ anoSelecionado }: PontosTempProps) => {
           if (y >= chartArea.top) {
             ctx.save();
 
-            const IsHovered = chart.getActiveElements().some((el: any) => el.index === index);
+            const IsHovered = chart
+              .getActiveElements()
+              .some((el: any) => el.index === index);
             const hoverOpacity = IsHovered ? 0.5 : 1.0;
 
             ctx.globalAlpha = hoverOpacity;
             ctx.drawImage(img, x, y, size, size);
             ctx.restore();
-        
           }
         }
       });
@@ -153,11 +154,11 @@ const PontosTemp = ({ anoSelecionado }: PontosTempProps) => {
       plugins={[imagePlugin]}
       options={{
         scales: {
-            y: {
-                grace: '30%'
-            }
+          y: {
+            grace: "30%",
+          },
         },
-        
+
         responsive: true,
         maintainAspectRatio: false,
         animations: {
@@ -166,7 +167,8 @@ const PontosTemp = ({ anoSelecionado }: PontosTempProps) => {
             easing: "easeInOutQuad",
             from: 0.5,
             to: 0,
-            loop: false,}
+            loop: false,
+          },
         },
         plugins: {
           tooltip: {

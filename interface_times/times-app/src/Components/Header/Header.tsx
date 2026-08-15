@@ -1,4 +1,5 @@
 // import React from 'react';
+import { Link } from "react-router-dom"
 import './Header.css'
 
 import React from 'react';
@@ -22,9 +23,9 @@ const Header = ({ dados, onAnoChange, anoSelecionado }: HeaderProps) => {
       </div>
       <nav className="navbar">
         <ul>
-          <li>Home</li>
-          <li>Classificação</li>
-          <li>Gráficos</li>       
+          <li><Link to="/" >Home</Link></li>
+          <li><Link to="/graphics" >Gráficos</Link></li>
+          <li><Link to="/classification" >Classificação</Link></li>      
         </ul>
       </nav>
       <SeletorTemp dados={dados} onAnoChange={onAnoChange} anoSelecionado={anoSelecionado} />

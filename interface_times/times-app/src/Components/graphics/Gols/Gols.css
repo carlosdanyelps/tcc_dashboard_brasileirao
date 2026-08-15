@@ -1,0 +1,41 @@
+.gols-container {
+  background: #ffffff;
+  border-radius: 4px;
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.gols-chart-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px;
+}
+
+.chart-header {
+  margin-bottom: 16px;
+}
+
+.chart-header h2 {
+  color: #333333;
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.chart-header p {
+  color: #999999;
+  margin: 0;
+  font-size: 12px;
+}
+
+.chart-loading {
+  color: #999999;
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 14px;
+}
