@@ -47,7 +47,15 @@ function Home() {
       />
 
       <div>
-        <h1>Home</h1>
+        <section className="hero">
+          <div className="hero-overlay"></div>
+
+          <div className="container hero-content">
+            <blockquote>“Que o ensino conduza à libertação do espírito pela razão sobre os conhecimentos adquiridos.”</blockquote>
+
+            <a href="#" className="btn-primary">Ver gráficos</a>
+          </div>
+        </section>
       </div>
     </>
   );

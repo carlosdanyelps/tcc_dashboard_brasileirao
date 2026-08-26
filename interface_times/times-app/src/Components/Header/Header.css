@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Arapey:ital@0;1&display=swap');
 
 html {
-    font-size: 62.7;
     margin: 0;
     padding: 0;
 }
@@ -15,8 +14,8 @@ html {
     padding: 0 1em;
     color: white;
     font-family: "Arapey", serif;
-    height: 4em;
-    position: fixed;
+    height: 64px;
+    /* position: fixed; */
     top: 0;
     width: 100%;
     z-index: 10;

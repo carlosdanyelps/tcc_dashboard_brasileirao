@@ -1,22 +1,28 @@
 .main-content {
     /* background-color: rgba(243, 243, 243, 0.418); */
     /* border: 1px solid #9f9f9f73; */
-    height: 50%;
-    width: 50%;
+    height: calc(100vh - 64px);
+    width: 100%;
+    scrollbar-width: auto;
 }
 
 .graphic-session {
+    width: 700px;
+    height: 100vh;
+}
+
+.point-graphic {
     background-color: rgb(235, 235, 235);
-    height: 100%;
+    height: 50%;
     width: 100%;
     padding: 1rem;
 }
 
-.top4-session {
+.top4-graphic {
     display: flex;
     flex: 1;
     /* flex-direction: column; */
-    height: 100%;
+    height: 50%;
     justify-content: center;
     align-items: center;
     padding: 4rem;
@@ -26,8 +32,8 @@
 }
 
 /* Responsividade */
-/* @media (max-width: 1000px) {
+@media (max-width: 1000px) {
     .graphics-container {
         grid-template-columns: 1fr;
     }
-} */
+}
