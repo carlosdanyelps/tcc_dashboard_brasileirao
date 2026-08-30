@@ -40,23 +40,24 @@ function Home() {
 
   return (
     <>
-      <Header
-        dados={dados}
-        onAnoChange={handleAnoChange}
-        anoSelecionado={anoSelecionado}
-      />
+      <div className="home-page">
+        <Header
+          dados={dados}
+          onAnoChange={handleAnoChange}
+          anoSelecionado={anoSelecionado}
+          fixed={true}
+        />
 
-      <div>
-        <section className="hero">
-          <div className="hero-overlay"></div>
+        <main>
+          <section className="hero">
+            <div className="hero-overlay"></div>
 
           <div className="container hero-content">
-            <blockquote>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio, beatae.</blockquote>
+            <blockquote>“Que o ensino conduza à libertação do espírito pela razão sobre os conhecimentos adquiridos.”</blockquote>
 
             <a href="#" className="btn-primary">Ver gráficos</a>
           </div>
         </section>
-        section.
       </div>
     </>
   );
