@@ -51,11 +51,12 @@ function Home() {
           <div className="hero-overlay"></div>
 
           <div className="container hero-content">
-            <blockquote>“Que o ensino conduza à libertação do espírito pela razão sobre os conhecimentos adquiridos.”</blockquote>
+            <blockquote>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio, beatae.</blockquote>
 
             <a href="#" className="btn-primary">Ver gráficos</a>
           </div>
         </section>
+        section.
       </div>
     </>
   );
