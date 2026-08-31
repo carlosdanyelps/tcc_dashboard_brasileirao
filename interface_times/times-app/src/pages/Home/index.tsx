@@ -52,12 +52,21 @@ function Home() {
           <section className="hero">
             <div className="hero-overlay"></div>
 
-          <div className="container hero-content">
-            <blockquote>“Que o ensino conduza à libertação do espírito pela razão sobre os conhecimentos adquiridos.”</blockquote>
+            <div className="container hero-content">
+              <blockquote>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Corrupti, velit.
+              </blockquote>
 
-            <a href="#" className="btn-primary">Ver gráficos</a>
-          </div>
-        </section>
+              <a href="#" className="btn-primary">
+                Ver gráficos
+              </a>
+            </div>
+          </section>
+          <section className="nossa-proposta"> 
+            
+          </section>
+        </main>
       </div>
     </>
   );

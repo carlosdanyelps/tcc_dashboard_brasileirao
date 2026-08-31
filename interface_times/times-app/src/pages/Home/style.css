@@ -52,6 +52,7 @@ p {
 .hero blockquote {
   font-family: "Playfair Display", serif;
   font-size: 40px;
+  padding: 15px;
   line-height: 1.2;
 }
 
