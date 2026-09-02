@@ -8,6 +8,7 @@ interface TimeData {
 
 function Home() {
   const [anoSelecionado, setAnoSelecionado] = useState<number>(2025);
+
   const dados: TimeData[] = [
     { ano: 2003 },
     { ano: 2004 },
@@ -39,36 +40,117 @@ function Home() {
   };
 
   return (
-    <>
-      <div className="home-page">
-        <Header
-          dados={dados}
-          onAnoChange={handleAnoChange}
-          anoSelecionado={anoSelecionado}
-          fixed={true}
-        />
+    <div className="home-page">
 
-        <main>
-          <section className="hero">
-            <div className="hero-overlay"></div>
+      <Header
+        dados={dados}
+        onAnoChange={handleAnoChange}
+        anoSelecionado={anoSelecionado}
+        fixed={true}
+      />
 
-            <div className="container hero-content">
-              <blockquote>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Corrupti, velit.
-              </blockquote>
+      <main>
 
-              <a href="#" className="btn-primary">
-                Ver gráficos
+        {/* HERO */}
+        <section className="hero">
+          <div className="hero-overlay" />
+
+          <div className="hero-content">
+            <blockquote>
+              Explore os dados, estatísticas e informações
+              do Campeonato Brasileiro.
+            </blockquote>
+
+            <a href="#proposta" className="btn-primary">
+              Ler mais
+            </a>
+          </div>
+        </section>
+
+
+        {/* NOSSA PROPOSTA */}
+        <section className="nossa-proposta" id="proposta">
+
+          <h2>Qual é a nossa proposta?</h2>
+
+          <div className="proposta-grid">
+
+            <div className="proposta-item">
+              <div className="shape circle" />
+
+              <p>
+                Nosso objetivo é apresentar informações
+                do Campeonato Brasileiro de uma forma
+                visual, simples e acessível.
+              </p>
+            </div>
+
+
+            <div className="proposta-item reverse">
+              <p>
+                Explore estatísticas, compare equipes
+                e acompanhe diferentes temporadas
+                através dos gráficos.
+              </p>
+
+              <div className="shape triangle" />
+            </div>
+
+          </div>
+
+        </section>
+
+
+        {/* CARDS */}
+        <section className="explorar">
+
+          <h2>Qual é a nossa proposta?</h2>
+
+          <div className="cards-container">
+
+            <button className="arrow">
+              &#10094;
+            </button>
+
+            <div className="card">
+              <p>
+                Explore os dados e estatísticas
+                disponíveis sobre os times.
+              </p>
+            </div>
+
+
+            <div className="card active">
+              <p>
+                Visualize informações detalhadas,
+                compare equipes e acompanhe
+                diferentes temporadas.
+              </p>
+
+              <a href="/graficos" className="btn-primary">
+                Ler mais
               </a>
             </div>
-          </section>
-          <section className="nossa-proposta"> 
-            
-          </section>
-        </main>
-      </div>
-    </>
+
+
+            <div className="card">
+              <p>
+                Consulte classificações e dados
+                históricos do campeonato.
+              </p>
+            </div>
+
+            <button className="arrow">
+              &#10095;
+            </button>
+
+          </div>
+
+        </section>
+
+      </main>
+
+    </div>
   );
 }
 

@@ -27,48 +27,255 @@ p {
 }
 
 .hero {
-  height: 100vh;
-  background: url("./../../assets/background.jpg") center/cover no-repeat;
+  min-height: 100vh;
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  background:
+    url("./../../assets/background.jpg")
+    center / cover
+    no-repeat;
 }
 
 .hero-overlay {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 8, 15, 0.9),
+    rgba(0, 8, 15, 0.65),
+    rgba(0, 0, 0, 0.1)
+  );
   z-index: 1;
 }
 
 .hero-content {
-  padding: relative;
-  max-width: 600px;
+  position: relative;
   z-index: 2;
+  max-width: 500px;
+  margin-left: 12%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
 .hero blockquote {
   font-family: "Playfair Display", serif;
-  font-size: 40px;
-  padding: 15px;
-  line-height: 1.2;
+  font-size: clamp(2rem, 3vw, 3.2rem);
+  line-height: 1.3;
+  color: white;
 }
 
-
 .btn-primary {
-  padding: 12px 25px;
-  color: #000;
+  width: fit-content;
+  padding: 12px 28px;
   background-color: white;
+  color: #111;
   text-decoration: none;
-  transition: 0.3s;
+  font-size: 14px;
+  border-radius: 2px;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .btn-primary:hover {
-  opacity: 0.8;
+  transform: translateY(-2px);
+  opacity: 0.85;
 }
 
 .nossa-proposta {
-  color: #000;
+  min-height: 500px;
+  background-color: #292929;
+  padding: 80px 10%;
+}
+
+.nossa-proposta h2,
+.explorar h2 {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 400;
+  margin-bottom: 70px;
+  color: #e5e5e5;
+}
+
+.proposta-grid {
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+}
+
+.proposta-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+.proposta-item p {
+  max-width: 300px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #d5d5d5;
+}
+
+.shape.circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #d8d8d8;
+}
+
+.shape.triangle {
+  width: 0;
+  height: 0;
+  border-left: 40px solid transparent;
+  border-right: 40px solid transparent;
+  border-bottom: 70px solid #d8d8d8;
+}
+
+.explorar {
+  min-height: 450px;
+  padding: 50px 5%;
+  background-color: #77828b;
+}
+
+.cards-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.card {
+  width: 250px;
+  min-height: 180px;
+  padding: 35px 25px;
+  background-color: #004c6b;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  box-shadow:
+    0 5px 15px rgba(0, 0, 0, 0.15);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.card.active {
+  transform: scale(1.1);
+  background-color: #005777;
+  z-index: 2;
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.card p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #e6e6e6;
+}
+
+.arrow {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 35px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.arrow:hover {
+  transform: scale(1.2);
+}
+
+@media (max-width: 1024px) {
+  .hero-content {
+    margin-left: 8%;
+  }
+
+  .proposta-grid {
+    gap: 50px;
+  }
+
+  .card {
+    width: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 90vh;
+  }
+
+  .hero-content {
+    max-width: 90%;
+    margin-left: 8%;
+    margin-right: 8%;
+  }
+
+  .hero blockquote {
+    font-size: 2rem;
+  }
+
+  .nossa-proposta {
+    padding: 70px 8%;
+  }
+
+  .proposta-grid {
+    grid-template-columns: 1fr;
+    gap: 70px;
+  }
+
+  .proposta-item p {
+    text-align: center;
+  }
+
+  .explorar {
+    padding: 60px 5%;
+  }
+
+  .cards-container {
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .arrow {
+    display: none;
+  }
+
+  .card {
+    width: 90%;
+    max-width: 350px;
+  }
+
+  .card.active {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content {
+    gap: 20px;
+  }
+
+  .hero blockquote {
+    font-size: 1.7rem;
+  }
+
+  .btn-primary {
+    padding: 10px 22px;
+  }
+
+  .nossa-proposta h2,
+  .explorar h2 {
+    font-size: 20px;
+    margin-bottom: 50px;
+  }
 }
