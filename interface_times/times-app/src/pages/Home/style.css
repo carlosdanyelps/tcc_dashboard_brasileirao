@@ -32,7 +32,7 @@ p {
   display: flex;
   align-items: center;
   background:
-    url("./../../assets/background.jpg")
+    url("./../../assets/background.png")
     center / cover
     no-repeat;
 }
