@@ -143,39 +143,6 @@ p {
   background-color: #77828b;
 }
 
-.cards-container {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-}
-
-.card {
-  width: 250px;
-  min-height: 180px;
-  padding: 35px 25px;
-  background-color: #004c6b;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 20px;
-  box-shadow:
-    0 5px 15px rgba(0, 0, 0, 0.15);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
-}
-
-.card.active {
-  transform: scale(1.1);
-  background-color: #005777;
-  z-index: 2;
-  box-shadow:
-    0 10px 25px rgba(0, 0, 0, 0.3);
-}
-
 .card p {
   font-size: 14px;
   line-height: 1.5;
@@ -193,6 +160,125 @@ p {
 
 .arrow:hover {
   transform: scale(1.2);
+}
+
+.carousel {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-window {
+  width: 850px;
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  transition: transform 0.6s ease;
+}
+
+.card {
+  min-width: 250px;
+  min-height: 180px;
+
+  padding: 35px 25px;
+
+  background-color: #004c6b;
+
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  gap: 15px;
+
+  opacity: 0.6;
+
+  transform: scale(0.9);
+
+  transition:
+    transform 0.6s ease,
+    opacity 0.6s ease,
+    background-color 0.6s ease,
+    box-shadow 0.6s ease;
+
+  box-shadow:
+    0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.card.active {
+  opacity: 1;
+
+  transform: scale(1.08);
+
+  background-color: #005777;
+
+  z-index: 2;
+
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.card h3 {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.card p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #e6e6e6;
+}
+
+.arrow {
+  min-width: 50px;
+
+  background: transparent;
+  border: none;
+
+  color: white;
+
+  font-size: 35px;
+
+  cursor: pointer;
+
+  z-index: 5;
+
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.arrow:hover {
+  transform: scale(1.2);
+}
+
+@media (max-width: 768px) {
+  .carousel-window {
+    width: 100%;
+  }
+
+  .arrow {
+    display: none;
+  }
+
+  .carousel-track {
+    gap: 15px;
+  }
+
+  .card {
+    min-width: 80vw;
+  }
+
+  .card.active {
+    transform: scale(1);
+  }
 }
 
 @media (max-width: 1024px) {
