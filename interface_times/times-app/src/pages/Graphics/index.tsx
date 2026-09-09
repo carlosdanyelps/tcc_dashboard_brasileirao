@@ -3,6 +3,7 @@ import { useState } from "react";
 import Header from "../../Components/Header/Header";
 import PontosTemp from "../../Components/graphics/PontosTemp/PontosTemp.tsx";
 import ComparativosTimes from "../../Components/graphics/ComparativoTimes/ComparativosTimes.tsx";
+import SessaoTemp from "../../Components/SessaoTemp/SessaoTemp.tsx";
 
 interface TimeData {
   ano: number;
@@ -42,7 +43,8 @@ function Graphics() {
 
   return (
     <>
-      <Header
+      <Header />
+      <SessaoTemp
         dados={dados}
         onAnoChange={handleAnoChange}
         anoSelecionado={anoSelecionado}

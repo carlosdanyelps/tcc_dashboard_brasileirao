@@ -2,23 +2,11 @@
 import { Link } from "react-router-dom";
 import "./Header.css";
 
-import SeletorTemp from "../Seletor/SeletorTemp";
-
-interface TimeData {
-  ano: number;
-}
-
 interface HeaderProps {
-  dados: TimeData[];
-  onAnoChange: (ano: number) => void;
-  anoSelecionado: number;
   fixed?: boolean;
 }
 
 const Header = ({
-  dados,
-  onAnoChange,
-  anoSelecionado,
   fixed = false,
 }: HeaderProps) => {
   return (
@@ -39,11 +27,6 @@ const Header = ({
           </li>
         </ul>
       </nav>
-      <SeletorTemp
-        dados={dados}
-        onAnoChange={onAnoChange}
-        anoSelecionado={anoSelecionado}
-      />
     </header>
   );
 };
