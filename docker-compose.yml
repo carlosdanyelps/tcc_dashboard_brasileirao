@@ -1,0 +1,13 @@
+services:
+  backend:
+    build:
+      context: ./interface_times/api
+      dockerfile: Dockerfile
+    container_name: brasileirao_backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./interface_times/api:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
