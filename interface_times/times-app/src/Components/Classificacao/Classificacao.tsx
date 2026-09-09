@@ -72,13 +72,13 @@ export default function Classificacao({ anoSelecionado }: ClassificacaoProps) {
               <th className="col-posicao">Pos</th>
               <th className="col-time">Time</th>
               <th className="col-pontos">Pts</th>
-              <th className="col-numero">J</th>
-              <th className="col-numero">V</th>
-              <th className="col-numero">E</th>
-              <th className="col-numero">D</th>
-              <th className="col-numero">GF</th>
-              <th className="col-numero">GC</th>
-              <th className="col-numero">SG</th>
+              <th className="col-header">J</th>
+              <th className="col-header">V</th>
+              <th className="col-header">E</th>
+              <th className="col-header">D</th>
+              <th className="col-header">GF</th>
+              <th className="col-header">GC</th>
+              <th className="col-header">SG</th>
             </tr>
           </thead>
           <tbody>
