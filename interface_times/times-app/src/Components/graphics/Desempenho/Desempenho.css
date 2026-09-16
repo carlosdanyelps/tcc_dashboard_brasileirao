@@ -11,10 +11,6 @@
 
 .chart-header {
   margin-bottom: 16px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
 }
 
 .chart-header h2 {
@@ -30,51 +26,9 @@
   font-size: 12px;
 }
 
-.team-selectors {
-  display: flex;
-  gap: 10px;
-}
-
-.team-selectors label {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  color: #666666;
-  font-size: 11px;
-}
-
-.team-selectors select {
-  min-width: 150px;
-  height: 32px;
-  padding: 0 8px;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
-  background: #ffffff;
-  color: #333333;
-}
-
 .chart-loading {
   color: #999999;
   text-align: center;
   padding: 40px 20px;
   font-size: 14px;
-}
-
-@media (max-width: 700px) {
-  .chart-header {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .team-selectors {
-    flex-wrap: wrap;
-  }
-
-  .team-selectors label {
-    flex: 1 1 140px;
-  }
-
-  .team-selectors select {
-    width: 100%;
-  }
 }

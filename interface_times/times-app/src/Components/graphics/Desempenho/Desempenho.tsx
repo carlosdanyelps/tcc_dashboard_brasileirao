@@ -27,10 +27,6 @@ interface DesempenhoProps {
   times?: string[];
 }
 
-interface TeamSummary {
-  time: string;
-}
-
 interface TimePerformance {
   time: string;
   anos: number[];
@@ -42,41 +38,13 @@ interface TimePerformance {
 const Desempenho = ({ times = ["Flamengo", "Palmeiras"] }: DesempenhoProps) => {
   const [chartData, setChartData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [availableTeams, setAvailableTeams] = useState<string[]>(DEFAULT_TIMES);
-  const [selectedTimes, setSelectedTimes] = useState<string[]>(() =>
-    times.length >= 2 ? times.slice(0, 2) : DEFAULT_TIMES
-  );
-
-  useEffect(() => {
-    let isMounted = true;
-
-    fetch("http://127.0.0.1:5000/timemain/time_main")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Não foi possível carregar os times");
-        }
-        return response.json() as Promise<TeamSummary[]>;
-      })
-      .then((teams) => {
-        if (isMounted) {
-          setAvailableTeams(teams.map((team) => team.time));
-        }
-      })
-      .catch((error) => {
-        console.error("Erro ao buscar times:", error);
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
         const responses = await Promise.all(
-          selectedTimes.map((time) =>
+          times.map((time) =>
             fetch(
               `http://127.0.0.1:5000/pontuacao_temporada?time=${time}`
             )
@@ -118,7 +86,7 @@ const Desempenho = ({ times = ["Flamengo", "Palmeiras"] }: DesempenhoProps) => {
     };
 
     fetchData();
-  }, [selectedTimes]);
+  }, [times]);
 
   if (loading) {
     return <div className="chart-loading">Carregando...</div>;
@@ -127,38 +95,8 @@ const Desempenho = ({ times = ["Flamengo", "Palmeiras"] }: DesempenhoProps) => {
   return (
     <div className="desempenho-container">
       <div className="chart-header">
-        <div>
-          <h2>Desempenho ao Longo do Tempo</h2>
-          <p>Pontos por temporada</p>
-        </div>
-        <div className="team-selectors">
-          {selectedTimes.map((selectedTime, index) => (
-            <label key={index}>
-              Time {index + 1}
-              <select
-                value={selectedTime}
-                onChange={(event) => {
-                  const newTimes = [...selectedTimes];
-                  newTimes[index] = event.target.value;
-                  setSelectedTimes(newTimes);
-                }}
-              >
-                {availableTeams.map((team) => (
-                  <option
-                    key={team}
-                    value={team}
-                    disabled={selectedTimes.some(
-                      (otherTime, otherIndex) =>
-                        otherIndex !== index && otherTime === team
-                    )}
-                  >
-                    {team}
-                  </option>
-                ))}
-              </select>
-            </label>
-          ))}
-        </div>
+        <h2>Desempenho ao Longo do Tempo</h2>
+        <p>Pontos por temporada</p>
       </div>
       {chartData ? (
         <Line

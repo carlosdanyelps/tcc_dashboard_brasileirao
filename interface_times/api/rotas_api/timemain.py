@@ -118,23 +118,16 @@ def build_time_summary(time):
     }
 
 
-def get_all_teams_summary(ano=None):
-    if ano is None:
-        times = all_times
-    else:
-        temporada = df[df['ano'] == ano]
-        times = sorted(pd.unique(temporada[['mandante', 'visitante']].values.ravel('K')))
-
-    return [build_time_summary(time) for time in times]
+def get_all_teams_summary():
+    return [build_time_summary(time) for time in all_times]
 
 
 @app.route('/timemain/time_main', methods=['GET'])
 def resumo_time():
     time = request.args.get('time')
-    ano = request.args.get('ano', type=int)
 
     if not time:
-        return jsonify(get_all_teams_summary(ano))
+        return jsonify(get_all_teams_summary())
 
     if time not in all_times:
         return jsonify({'error': 'Time não encontrado'}), 404

@@ -1,98 +1,39 @@
-.graphics-page {
-    min-height: 100vh;
-    background: #f4f6f4;
-}
-
 .main-content {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-items: start;
-    gap: 18px;
+    /* background-color: rgba(243, 243, 243, 0.418); */
+    /* border: 1px solid #9f9f9f73; */
+    height: calc(100vh - 64px);
     width: 100%;
-    max-width: 1540px;
-    margin: 0 auto;
-    padding: 22px clamp(16px, 3vw, 42px) 42px;
-    background: #f4f6f4;
-}
-
-.main-content > .season-summary {
-    grid-column: 1 / -1;
+    scrollbar-width: auto;
 }
 
 .graphic-session {
-    display: grid;
-    grid-column: 1 / -1;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
-    width: 100%;
+    width: 700px;
+    height: 100vh;
 }
 
 .point-graphic {
-    min-height: 390px;
+    background-color: rgb(235, 235, 235);
+    height: 50%;
     width: 100%;
-    padding: 18px;
-    background-color: #ffffff;
-    border: 1px solid #e1e5e2;
-    border-radius: 6px;
-    overflow: hidden;
+    padding: 1rem;
 }
 
 .top4-graphic {
     display: flex;
-    min-height: 390px;
+    flex: 1;
+    /* flex-direction: column; */
+    height: 50%;
     justify-content: center;
     align-items: center;
-    padding: 18px;
+    padding: 4rem;
     width: 100%;
-    background-color: #ffffff;
-    border: 1px solid #e1e5e2;
-    border-radius: 6px;
-    overflow: hidden;
+    background-color: rgba(243, 243, 243, 0.514);
+    /* border: 1px solid #9f9f9f73; */
 }
 
-.main-content > .desempenho-container {
-    min-height: 410px;
-}
-
-.main-content > .season-chart {
-    min-width: 0;
-    overflow: hidden;
-}
-
-.main-content canvas {
-    max-width: 100%;
-}
-
-@media (max-width: 900px) {
-    .main-content,
-    .graphic-session {
+/* Responsividade */
+@media (max-width: 1000px) {
+    .graphics-container {
         grid-template-columns: 1fr;
-    }
-
-    .graphic-session {
-        grid-column: auto;
-    }
-
-    .main-content > .season-summary {
-        grid-column: auto;
-    }
-}
-
-@media (max-width: 560px) {
-    .main-content {
-        gap: 14px;
-        padding: 14px 12px 28px;
-    }
-
-    .point-graphic,
-    .top4-graphic {
-        min-height: 330px;
-        padding: 12px;
-    }
-
-    .main-content > .desempenho-container,
-    .main-content > .season-chart {
-        min-height: 350px;
-        padding: 14px;
     }
 }
