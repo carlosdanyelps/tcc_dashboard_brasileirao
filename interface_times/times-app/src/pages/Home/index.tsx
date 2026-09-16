@@ -34,7 +34,7 @@ function Home() {
 
   return (
     <div className="home-page">
-      {/* <Header fixed={true} /> */}
+      <Header fixed={true} />
 
       <main>
         {/* HERO */}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Header from "../../Components/Header/Header";
 import Classificacao from "../../Components/Classificacao/Classificacao";
+import SessaoTemp from "../../Components/SessaoTemp/SessaoTemp";
 
 interface TimeData {
   ano: number;
@@ -40,7 +41,8 @@ function Classification() {
 
   return (
     <>
-      <Header dados={dados} onAnoChange={handleAnoChange} anoSelecionado={anoSelecionado} />
+      <Header />
+      <SessaoTemp dados={dados} onAnoChange={handleAnoChange} anoSelecionado={anoSelecionado} />
       <Classificacao anoSelecionado={anoSelecionado} />
     </>
   );

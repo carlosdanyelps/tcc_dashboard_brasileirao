@@ -1,0 +1,24 @@
+
+
+html {
+    margin: 0;
+    padding: 0;
+}
+
+section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #1a252f44;
+    margin: 0;
+    padding: 0 1em;
+    color: white;
+    height: 40px;
+    /* position: fixed; */
+    top: 0;
+    width: 100%;
+}
+
+.main {
+    padding-top: 4em;
+}
