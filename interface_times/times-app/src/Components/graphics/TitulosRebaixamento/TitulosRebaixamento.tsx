@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import type { ChartData } from "chart.js";
 import "./TitulosRebaixamento.css";
 import { Bar } from "react-chartjs-2";
 import {
@@ -23,7 +24,7 @@ ChartJS.register(
 interface TimeData {
   time: string;
   titulos_brasileirao: number;
-  rebaixamentos: any[];
+  rebaixamentos: unknown[];
   cor: string;
   bordaCor: string;
 }
@@ -33,7 +34,7 @@ interface TitulosRebaixamentoProps {
 }
 
 const TitulosRebaixamento = ({ times = ["Palmeiras", "Corinthians"] }: TitulosRebaixamentoProps) => {
-  const [chartData, setChartData] = useState<any>(null);
+  const [chartData, setChartData] = useState<ChartData<"bar"> | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {

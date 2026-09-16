@@ -40,7 +40,7 @@ from db.db import engine, SessionLocal
 # MANTIDO POR ENQUANTO.
 # Futuramente será migrado para PostgreSQL.
 
-#from escudos.cor import cor, bordaCor
+from escudos.cor import cor, bordaCor
 
 # IMPORTANTE:
 # mantenha aqui o import da função escudo que seu projeto
@@ -90,61 +90,6 @@ def executar_scalar(query, params=None):
         )
 
         return resultado.scalar()
-
-
-def dados_visuais_times(nomes):
-    """Carrega cores e escudos da tabela PostgreSQL de times."""
-    nomes = {nome for nome in nomes if nome}
-    if not nomes:
-        return {}
-
-    registros = executar_query(
-        """
-        SELECT id, time, cor, borda_cor
-        FROM times
-        WHERE LOWER(time) = ANY(:nomes)
-        """,
-        {"nomes": [nome.lower() for nome in nomes]},
-    )
-
-    return {
-        registro["time"].lower(): registro
-        for registro in registros
-    }
-
-
-def adicionar_dados_visuais(registros):
-    """Adiciona ao resultado da classificação os dados visuais do time."""
-    visuais = dados_visuais_times(
-        [registro.get("time") for registro in registros]
-    )
-
-    for registro in registros:
-        visual = visuais.get(registro["time"].lower())
-        if visual is None:
-            registro.update({
-                "id": None,
-                "escudo": None,
-                "cor": None,
-                "bordaCor": None,
-                "borderColor": None,
-            })
-            continue
-
-        registro.update({
-            "id": visual["id"],
-            "escudo": f"http://127.0.0.1:5000/escudo/{visual['id']}",
-            "cor": visual["cor"],
-            "bordaCor": visual["borda_cor"],
-            "borderColor": visual["borda_cor"],
-        })
-
-    return registros
-
-
-def dados_visuais_time(nome):
-    visuais = dados_visuais_times([nome])
-    return visuais.get(nome.lower())
 
 
 # ============================================================
@@ -318,103 +263,7 @@ def montar_tabela(ano, rodada=None):
             time ASC
     """
 
-    return adicionar_dados_visuais(executar_query(query, params))
-
-
-def montar_tabela_por_rodada(ano, rodada_limite=None):
-    """Monta a classificação acumulada de cada rodada da temporada."""
-    filtro_rodada = ""
-    params = {"ano": ano}
-
-    if rodada_limite is not None:
-        filtro_rodada = "AND rodada <= :rodada_limite"
-        params["rodada_limite"] = rodada_limite
-
-    query = f"""
-        WITH partidas AS (
-            SELECT DISTINCT ON (id)
-                id,
-                mandante,
-                visitante,
-                mandante_placar,
-                visitante_placar,
-                CAST(rodata_corrigida AS INTEGER) AS rodada
-            FROM campeonato_brasileiro
-            WHERE temporada_corrigida = :ano
-              AND mandante IS NOT NULL
-              AND visitante IS NOT NULL
-              AND mandante_placar IS NOT NULL
-              AND visitante_placar IS NOT NULL
-              AND rodata_corrigida IS NOT NULL
-            ORDER BY id
-        ),
-        jogos AS (
-            SELECT
-                rodada,
-                mandante AS time,
-                mandante_placar AS gols_pro,
-                visitante_placar AS gols_contra,
-                CASE WHEN mandante_placar > visitante_placar THEN 3
-                     WHEN mandante_placar = visitante_placar THEN 1 ELSE 0 END AS pontos,
-                CASE WHEN mandante_placar > visitante_placar THEN 1 ELSE 0 END AS vitorias,
-                CASE WHEN mandante_placar = visitante_placar THEN 1 ELSE 0 END AS empates,
-                CASE WHEN mandante_placar < visitante_placar THEN 1 ELSE 0 END AS derrotas
-            FROM partidas
-            UNION ALL
-            SELECT
-                rodada,
-                visitante AS time,
-                visitante_placar AS gols_pro,
-                mandante_placar AS gols_contra,
-                CASE WHEN visitante_placar > mandante_placar THEN 3
-                     WHEN visitante_placar = mandante_placar THEN 1 ELSE 0 END AS pontos,
-                CASE WHEN visitante_placar > mandante_placar THEN 1 ELSE 0 END AS vitorias,
-                CASE WHEN visitante_placar = mandante_placar THEN 1 ELSE 0 END AS empates,
-                CASE WHEN visitante_placar < mandante_placar THEN 1 ELSE 0 END AS derrotas
-            FROM partidas
-        ),
-        rodadas AS (
-            SELECT DISTINCT rodada
-            FROM jogos
-            WHERE 1 = 1 {filtro_rodada}
-        ),
-        acumulada AS (
-            SELECT
-                r.rodada,
-                j.time,
-                COUNT(*) AS jogos,
-                SUM(j.vitorias) AS vitorias,
-                SUM(j.empates) AS empates,
-                SUM(j.derrotas) AS derrotas,
-                SUM(j.gols_pro) AS gols_pro,
-                SUM(j.gols_contra) AS gols_contra,
-                SUM(j.gols_pro - j.gols_contra) AS saldo_gols,
-                SUM(j.pontos) AS pontos
-            FROM rodadas r
-            JOIN jogos j ON j.rodada <= r.rodada
-            GROUP BY r.rodada, j.time
-        )
-        SELECT
-            ROW_NUMBER() OVER (
-                PARTITION BY rodada
-                ORDER BY pontos DESC, saldo_gols DESC, gols_pro DESC,
-                         vitorias DESC, time ASC
-            ) AS posicao,
-            rodada,
-            time,
-            jogos,
-            vitorias,
-            empates,
-            derrotas,
-            gols_pro,
-            gols_contra,
-            saldo_gols,
-            pontos
-        FROM acumulada
-        ORDER BY rodada, posicao
-    """
-
-    return adicionar_dados_visuais(executar_query(query, params))
+    return executar_query(query, params)
 
 
 # ============================================================
@@ -606,7 +455,7 @@ def get_tabela():
                 'erro': 'Ano não encontrado'
             }), 404
 
-        return jsonify(adicionar_dados_visuais(tabela))
+        return jsonify(tabela)
 
     return jsonify({
         'erro': (
@@ -633,7 +482,36 @@ def get_tabela_rodada():
             'erro': 'Informe o ano'
         }), 400
 
-    tabela = montar_tabela_por_rodada(ano, rodada)
+    # Se nenhuma rodada for informada,
+    # retorna a última rodada disponível.
+
+    if rodada is None:
+
+        rodada = executar_scalar(
+            """
+            SELECT MAX(
+                CAST(rodata_corrigida AS INTEGER)
+            )
+
+            FROM campeonato_brasileiro
+
+            WHERE temporada_corrigida = :ano
+            """,
+            {
+                "ano": ano
+            }
+        )
+
+        if rodada is None:
+
+            return jsonify({
+                'erro': f'Ano {ano} não encontrado'
+            }), 404
+
+    tabela = montar_tabela(
+        ano,
+        rodada
+    )
 
     if not tabela:
 
@@ -965,7 +843,6 @@ def get_pontuacao_por_temporada():
             'erro': 'Time não encontrado'
         }), 404
 
-    visual = dados_visuais_time(time)
     pontos = {
         int(item["ano"]): int(item["pontos"])
         for item in registros
@@ -995,38 +872,20 @@ def get_pontuacao_por_temporada():
                 )
             }), 404
 
-        resposta = {
+        return jsonify({
             'time': time,
             'ano': ano,
             'pontos': pontos[ano]
-        }
-        if visual:
-            resposta.update({
-                'id': visual['id'],
-                'escudo': f"http://127.0.0.1:5000/escudo/{visual['id']}",
-                'cor': visual['cor'],
-                'bordaCor': visual['borda_cor'],
-                'borderColor': visual['borda_cor'],
-            })
-        return jsonify(resposta)
+        })
 
     # --------------------------------------------------------
     # Todas as temporadas
     # --------------------------------------------------------
 
-    resposta = {
+    return jsonify({
         'time': time,
         'pontos_por_temporada': pontos
-    }
-    if visual:
-        resposta.update({
-            'id': visual['id'],
-            'escudo': f"http://127.0.0.1:5000/escudo/{visual['id']}",
-            'cor': visual['cor'],
-            'bordaCor': visual['borda_cor'],
-            'borderColor': visual['borda_cor'],
-        })
-    return jsonify(resposta)
+    })
 
 
 # ============================================================
@@ -1557,30 +1416,16 @@ def dados_db():
 # ============================================================
 # ESCUDO
 # ============================================================
-
-@app.route('/escudo/<int:id>')
-def get_escudo(id):
-    return escudo(id)
-
-
-@app.route('/time/visual')
-def get_dados_visuais_time():
-    nome = request.args.get('time')
-    if not nome:
-        return jsonify({'erro': 'Time não especificado'}), 400
-
-    visual = dados_visuais_time(nome)
-    if visual is None:
-        return jsonify({'erro': 'Time não encontrado'}), 404
-
-    return jsonify({
-        'id': visual['id'],
-        'time': visual['time'],
-        'cor': visual['cor'],
-        'bordaCor': visual['borda_cor'],
-        'borderColor': visual['borda_cor'],
-        'escudo': f"http://127.0.0.1:5000/escudo/{visual['id']}",
-    })
+# NÃO MIGRAR AGORA.
+# DEIXE SUA IMPLEMENTAÇÃO ATUAL AQUI.
+#
+# Exemplo:
+#
+# @app.route('/escudo/<int:id>')
+# def get_escudo(id):
+#     return escudo(id)
+#
+# ============================================================
 
 
 if __name__ == '__main__':

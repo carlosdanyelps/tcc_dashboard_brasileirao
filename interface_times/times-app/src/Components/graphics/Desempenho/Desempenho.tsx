@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import type { ChartData } from "chart.js";
 import "./Desempenho.css";
 import { Line } from "react-chartjs-2";
 import {
@@ -35,7 +36,7 @@ interface TimePerformance {
 }
 
 const Desempenho = ({ times = ["Flamengo", "Palmeiras"] }: DesempenhoProps) => {
-  const [chartData, setChartData] = useState<any>(null);
+  const [chartData, setChartData] = useState<ChartData<"line"> | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {

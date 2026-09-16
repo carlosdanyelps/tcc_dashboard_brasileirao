@@ -1,6 +1,5 @@
 import "./style.css";
 import { useState } from "react";
-import Header from "../../Components/Header/Header";
 
 function Home() {
   const [cardAtual, setCardAtual] = useState(1);

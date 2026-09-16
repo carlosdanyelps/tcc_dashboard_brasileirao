@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import type { ChartData } from "chart.js";
 import "./Gols.css";
 import { Pie } from "react-chartjs-2";
 import {
@@ -23,9 +24,9 @@ interface DadoApi {
 }
 
 const Gols = ({ timeSelected = "Flamengo" }: GolsProps) => {
-  const [chartData, setChartData] = useState<any>(null);
+  const [chartData, setChartData] = useState<ChartData<"pie"> | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [timeInfo, setTimeInfo] = useState<any>(null);
+  const [timeInfo, setTimeInfo] = useState<DadoApi | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {

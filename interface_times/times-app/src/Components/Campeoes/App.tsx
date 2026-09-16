@@ -1,10 +1,16 @@
 'use client';
 
-import "../Campeoes/App.css"
+import "../Campeoes/App.css";
 import { useState, useEffect } from "react";
 
+interface Campeao {
+  ano: number;
+  time: string;
+  pontos: number;
+}
+
 export default function App() {
-  const [dados, setDados] = useState<any[]>([]); // estado para guardar a resposta
+  const [dados, setDados] = useState<Campeao[]>([]);
   const URL = "http://127.0.0.1:5000/API/campeoes_A";
 
   useEffect(() => {

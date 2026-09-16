@@ -1,12 +1,12 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import sessionmaker, declarative_base
 
-DATABASE_URL = (
-    "postgresql://admin:123456@localhost:5433/dashboard_tcc"
+DATABASE_URL = "postgresql://admin:123456@localhost:5433/dashboard_tcc"
+
+engine = create_engine(
+    DATABASE_URL,
+    pool_pre_ping=True
 )
-
-engine = create_engine(DATABASE_URL)
 
 SessionLocal = sessionmaker(
     autocommit=False,
@@ -16,12 +16,11 @@ SessionLocal = sessionmaker(
 
 Base = declarative_base()
 
-def get_db():
 
+def get_db():
     db = SessionLocal()
 
     try:
         yield db
-
     finally:
         db.close()
