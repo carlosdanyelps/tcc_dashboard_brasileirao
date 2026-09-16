@@ -1,4 +1,5 @@
-import { useEffect, useState, useRef, use } from "react";
+import { useEffect, useState } from "react";
+import type { ChartData } from "chart.js";
 import "./ComparativoTimes.css";
 import { Line } from "react-chartjs-2";
 import {
@@ -35,14 +36,9 @@ interface DadoApi {
 }
 
 const ComparativosTimes = ({ anoSelecionado }: ComparativosTimesProps) => {
-  const [chartData, setChartData] = useState<{
-    labels: string[];
-    datasets: object[];
-    times: string[];
-  } | null>(null);
+  const [chartData, setChartData] = useState<ChartData<"line"> | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const chartRef = useRef<any>(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -115,10 +111,13 @@ const ComparativosTimes = ({ anoSelecionado }: ComparativosTimesProps) => {
         setChartData({
           labels: rodadas.map((rodada) => ` ${rodada}`),
           datasets,
+          times: top4Times,
         });
-      } catch (err) {
+      } catch (err: unknown) {
         console.error("Erro ao buscar dados:", err);
-        setError(err.message);
+        setError(
+          err instanceof Error ? err.message : "Erro desconhecido ao carregar dados",
+        );
       } finally {
         setLoading(false);
       }

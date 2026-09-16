@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import type { Chart, ChartData } from "chart.js";
 import "./PontosTemp.css";
 import { Bar } from "react-chartjs-2";
 import {
@@ -32,35 +33,32 @@ interface DadoApi {
   escudo: string;
 }
 const PontosTemp = ({ anoSelecionado }: PontosTempProps) => {
-  const [chartData, setChartData] = useState<{
-    labels: string[];
-    datasets: object[];
-    times: string[];
-  } | null>(null);
+  const [chartData, setChartData] = useState<ChartData<"bar"> | null>(null);
   const [loading, setLoading] = useState(true);
-  const chartRef = useRef<any>(null);
+  const chartRef = useRef<Chart<"bar"> | null>(null);
 
-  const imgCache = {};
+  const imgCache: Record<string, HTMLImageElement> = {};
 
   const imagePlugin = {
     id: "customBarImage",
-    afterDatasetsDraw(chart: any) {
+    afterDatasetsDraw(chart: Chart<"bar">) {
       const { ctx, data, chartArea } = chart;
-      const dataset = data.datasets[0];
+      const dataset = data.datasets[0] as {
+        images?: string[];
+      };
       const images = dataset.images || [];
 
-      chart.getDatasetMeta(0).data.forEach((bar: any, index: number) => {
+      chart.getDatasetMeta(0).data.forEach((bar, index) => {
         const imgUrl = images[index];
-        if (!imgCache) return;
+        if (!imgUrl) return;
 
         if (!imgCache[imgUrl]) {
-          imgCache[imgUrl] = new Image();
-          imgCache[imgUrl].src = imgUrl;
-          imgCache[imgUrl].onload = () => {
-            if (chartRef.current) {
-              chartRef.current.draw();
-            }
+          const image = new Image();
+          image.src = imgUrl;
+          image.onload = () => {
+            chart.draw();
           };
+          imgCache[imgUrl] = image;
         }
 
         const img = imgCache[imgUrl];
@@ -73,10 +71,10 @@ const PontosTemp = ({ anoSelecionado }: PontosTempProps) => {
           if (y >= chartArea.top) {
             ctx.save();
 
-            const IsHovered = chart
+            const isHovered = chart
               .getActiveElements()
-              .some((el: any) => el.index === index);
-            const hoverOpacity = IsHovered ? 0.5 : 1.0;
+              .some((el) => el.index === index);
+            const hoverOpacity = isHovered ? 0.5 : 1.0;
 
             ctx.globalAlpha = hoverOpacity;
             ctx.drawImage(img, x, y, size, size);

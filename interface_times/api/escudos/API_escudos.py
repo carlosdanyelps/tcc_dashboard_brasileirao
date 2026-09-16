@@ -1,41 +1,44 @@
-from flask import Flask, send_file, abort
-import pandas as pd
+from io import BytesIO
+
+from flask import send_file
+from sqlalchemy import text
+
 import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from db.db import engine
 
-app = Flask(__name__)
 
-# caminho absoluto (evita erro de diretório)
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-csv_path = os.path.join(BASE_DIR, "dataset_times", "labels.csv")
-img_path = os.path.join(BASE_DIR, "dataset_times", "imagens")
-
-labels = pd.read_csv(csv_path)
-
-# garante que ID é inteiro
-labels["ID"] = labels["ID"].astype(int)
-
-@app.route("/")
-def home():
-    return "API de escudos funcionando!"
-
-@app.route("/escudo/<int:id>")
 def escudo(id):
+    with engine.connect() as conn:
+        resultado = conn.execute(
+            text("""
+                SELECT
+                    arquivo,
+                    imagem
+                FROM times
+                WHERE id = :id
+                LIMIT 1
+            """),
+            {
+                "id": id
+            }
+        ).mappings().first()
 
-    # busca pelo ID
-    linha = labels[labels["ID"] == id]
+    if resultado is None:
+        return {
+            "erro": "ID não encontrado"
+        }, 404
 
-    if linha.empty:
-        return {"erro": "ID não encontrado"}, 404
+    imagem = resultado["imagem"]
 
-    arquivo = linha.iloc[0]["arquivo"]
-    caminho = os.path.join(img_path, arquivo)
+    if imagem is None:
+        return {
+            "erro": "Imagem não encontrada"
+        }, 404
 
-    if not os.path.exists(caminho):
-        return {"erro": "Imagem não encontrada"}, 404
-
-    return send_file(caminho)
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    return send_file(
+        BytesIO(imagem),
+        mimetype="image/png",
+        download_name=resultado["arquivo"]
+    )
