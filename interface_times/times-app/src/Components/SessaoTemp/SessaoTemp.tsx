@@ -1,5 +1,3 @@
-// import React from 'react';
-import { Link } from "react-router-dom";
 import "./SessaoTemp.css";
 
 import SeletorTemp from "../Seletor/SeletorTemp";
@@ -21,7 +19,7 @@ const SessaoTemp = ({
   anoSelecionado,
 }: HeaderProps) => {
   return (
-    <section>
+    <section className="season-toolbar">
       
       <SeletorTemp
         dados={dados}

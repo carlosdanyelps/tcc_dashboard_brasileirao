@@ -1,0 +1,38 @@
+.season-chart {
+  min-height: 360px;
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid #e1e5e2;
+  border-radius: 6px;
+}
+
+.season-chart-header {
+  margin-bottom: 12px;
+}
+
+.season-chart-header h2 {
+  margin: 0 0 4px;
+  color: #18352a;
+  font-size: 17px;
+}
+
+.season-chart-header p,
+.season-chart-loading {
+  margin: 0;
+  color: #728078;
+  font-size: 12px;
+}
+
+.gols-season-chart {
+  grid-column: span 2;
+}
+
+.gols-season-chart canvas {
+  max-height: 300px;
+}
+
+@media (max-width: 850px) {
+  .gols-season-chart {
+    grid-column: auto;
+  }
+}

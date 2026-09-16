@@ -85,6 +85,10 @@ def get_tabela_rodada():
 def timemain():
     return resumo_time()
 
+@app.route('/timemain/time_main')
+def timemain_times():
+    return resumo_time()
+
 ################################################################
 ############# ESCUDO #############
 ###############################################################
