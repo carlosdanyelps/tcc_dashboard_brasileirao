@@ -2,21 +2,21 @@ import pandas as pd
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from rotas_api.campeaosuporteapi import campeoes_geral, ordenar_campeao
+from rotas_api.campeaosuporteapi import construir_campeoes, ordenar_campeao
 
 from funcoes.campeoes import tabela_ano, tabela_time_ano
 from rotas_api.timemain import resumo_time
 from escudos.API_escudos import escudo
 from funcoes.estatistica import pontuacao_final_por_temporada, mid_derrota, mid_gol, mid_vitoria, mid_empate
 from escudos.cor import cor, bordaCor
-from tmp import classificacao_por_rodada
+from rotas_api.tmp import classificacao_por_rodada
 from funcoes.confronto import confrontos
-from timemain import comparar_times
+from rotas_api.timemain import comparar_times
 
 from sqlalchemy import text
-from db.db import engine
-from db.db import SessionLocal
+
 from db.models import CampeonatoBrasileiro
+from db.db import engine, SessionLocal
 
 
 from flask import Flask, jsonify, request
@@ -32,7 +32,6 @@ sys.path.append(
 )
 
 from sqlalchemy import text
-from db.db import engine, SessionLocal
 
 # ============================================================
 # DATASET DE TIMES / ESCUDOS
