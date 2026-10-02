@@ -36,7 +36,7 @@ interface TimePerformance {
 }
 
 const Desempenho = ({ times = ["Flamengo", "Palmeiras"] }: DesempenhoProps) => {
-  const [chartData, setChartData] = useState<ChartData<"line"> | null>(null);
+  const [chartData, setChartData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
