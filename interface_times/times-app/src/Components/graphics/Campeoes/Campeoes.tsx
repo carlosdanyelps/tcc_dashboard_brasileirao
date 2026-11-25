@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import type { ChartData } from "chart.js";
 import "./Campeoes.css";
 import { Bar } from "react-chartjs-2";
 import {
@@ -27,7 +26,7 @@ interface DadoApi {
 }
 
 const Campeoes = ({ anoSelecionado }: CampoesProps) => {
-  const [chartData, setChartData] = useState<ChartData<"bar"> | null>(null);
+  const [chartData, setChartData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {

@@ -4,18 +4,19 @@ import './Classificacao.css';
 interface TimeClassificacao {
   posicao: number;
   time: string;
-  id: number | null;
+  id: number;
   vitorias: number;
   empates: number;
   derrotas: number;
-  jogos: number;
+  temporada: number;
   pontos: number;
   gols_pro: number;
-  gols_contra: number;
-  saldo_gols: number;
-  escudo: string | null;
-  cor: string | null;
-  bordaCor: string | null;
+  gols_tomados: number;
+  saldo: number;
+  rodada: number;
+  escudo: string;
+  cor: string;
+  bordaCor: string;
 }
 
 interface ClassificacaoProps {
@@ -40,7 +41,7 @@ export default function Classificacao({ anoSelecionado }: ClassificacaoProps) {
         }
         
         const data = await response.json();
-        setClassificacao(Array.isArray(data) ? data : []);
+        setClassificacao(data);
       } catch (error) {
         setErro(error instanceof Error ? error.message : 'Erro ao carregar classificação');
         console.error('Erro:', error);
@@ -83,12 +84,17 @@ export default function Classificacao({ anoSelecionado }: ClassificacaoProps) {
           <tbody>
             {classificacao.length > 0 ? (
               classificacao.map((time, index) => {
+                // Calcular jogos, vitórias, empates, derrotas
+                // Por enquanto, você pode usar a rodada como aproximação de jogos
+                const jogos = Math.round(time.rodada);
+                
+
                 const isTopTres = index < 4;
                 const isRebaixamento = index >= 16;
 
                 return (
                   <tr
-                    key={`${time.time}-${time.posicao}`}
+                    key={`${time.time}-${time.temporada}`}
                     className={`
                       ${isTopTres ? 'top-tres' : ''}
                       ${isRebaixamento ? 'rebaixamento' : ''}
@@ -114,15 +120,15 @@ export default function Classificacao({ anoSelecionado }: ClassificacaoProps) {
                     </td>
                     
                     <td className="col-pontos"><strong>{time.pontos}</strong></td>
-                    <td className="col-numero">{time.jogos}</td>
+                    <td className="col-numero">{time.rodada}</td>
                     <td className="col-numero vitoria">{time.vitorias}</td>
                     <td className="col-numero empate">{time.empates}</td>
                     <td className="col-numero derrota">{time.derrotas}</td>
                     <td className="col-numero">{time.gols_pro}</td>
-                    <td className="col-numero">{time.gols_contra}</td>
+                    <td className="col-numero">{time.gols_tomados}</td>
                     <td className="col-numero saldo">
-                      <span className={time.saldo_gols > 0 ? 'positivo' : time.saldo_gols < 0 ? 'negativo' : ''}>
-                        {time.saldo_gols > 0 ? '+' : ''}{time.saldo_gols}
+                      <span className={time.saldo > 0 ? 'positivo' : time.saldo < 0 ? 'negativo' : ''}>
+                        {time.saldo > 0 ? '+' : ''}{time.saldo}
                       </span>
                     </td>
                   </tr>

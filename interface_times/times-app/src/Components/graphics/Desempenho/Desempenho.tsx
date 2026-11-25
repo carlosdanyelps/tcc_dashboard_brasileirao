@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import type { ChartData } from "chart.js";
 import "./Desempenho.css";
 import { Line } from "react-chartjs-2";
 import {
@@ -35,7 +34,9 @@ interface TimePerformance {
   bordaCor: string;
 }
 
-const Desempenho = ({ times = ["Flamengo", "Palmeiras"] }: DesempenhoProps) => {
+const DEFAULT_TIMES = ["Flamengo", "Palmeiras"];
+
+const Desempenho = ({ times = DEFAULT_TIMES }: DesempenhoProps) => {
   const [chartData, setChartData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 

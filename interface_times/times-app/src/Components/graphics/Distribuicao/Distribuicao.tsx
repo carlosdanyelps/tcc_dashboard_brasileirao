@@ -1,15 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Distribuicao.css";
 
-interface EstatisticasDistribuicao {
-  totalTimes: number;
-  mediaPontos: string;
-  pontosCampeao: number;
-  pontosRebaixado: number;
-  campeao: string;
-  rebaixado: string;
-}
-
 interface DistribuicaoProps {
   anoSelecionado: number;
 }
@@ -23,7 +14,7 @@ interface DadoApi {
 }
 
 const Distribuicao = ({ anoSelecionado }: DistribuicaoProps) => {
-  const [stats, setStats] = useState<EstatisticasDistribuicao | null>(null);
+  const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
