@@ -4,11 +4,6 @@ import Header from "../../Components/Header/Header";
 import PontosTemp from "../../Components/graphics/PontosTemp/PontosTemp.tsx";
 import ComparativosTimes from "../../Components/graphics/ComparativoTimes/ComparativosTimes.tsx";
 import SessaoTemp from "../../Components/SessaoTemp/SessaoTemp.tsx";
-import Desempenho from "../../Components/graphics/Desempenho/Desempenho.tsx";
-import GolsTemporada from "../../Components/graphics/GolsTemporada/GolsTemporada.tsx";
-import ResultadosTemporada from "../../Components/graphics/ResultadosTemporada/ResultadosTemporada.tsx";
-import EvolucaoPontos from "../../Components/graphics/EvolucaoPontos/EvolucaoPontos.tsx";
-import ResumoTemporada from "../../Components/graphics/ResumoTemporada/ResumoTemporada.tsx";
 
 interface TimeData {
   ano: number;
@@ -47,7 +42,7 @@ function Graphics() {
   };
 
   return (
-    <main className="graphics-page">
+    <>
       <Header />
       <SessaoTemp
         dados={dados}
@@ -55,7 +50,6 @@ function Graphics() {
         anoSelecionado={anoSelecionado}
       />
       <div className="main-content">
-        <ResumoTemporada anoSelecionado={anoSelecionado} />
         <div className="graphic-session">
           <div className="point-graphic">
             <PontosTemp anoSelecionado={anoSelecionado} />
@@ -64,12 +58,8 @@ function Graphics() {
             <ComparativosTimes anoSelecionado={anoSelecionado} />
           </div>
         </div>
-        <Desempenho anoSelecionado={anoSelecionado} />
-        <GolsTemporada anoSelecionado={anoSelecionado} />
-        <ResultadosTemporada anoSelecionado={anoSelecionado} />
-        <EvolucaoPontos anoSelecionado={anoSelecionado} />
       </div>
-    </main>
+    </>
   );
 }
 

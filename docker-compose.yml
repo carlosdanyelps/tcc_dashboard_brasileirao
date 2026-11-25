@@ -1,13 +1,26 @@
 services:
+
   backend:
     build:
-      context: ./interface_times/api
-      dockerfile: Dockerfile
-    container_name: brasileirao_backend
+      context: ./interface_times
+      dockerfile: api/Dockerfile
+
+    container_name: dashboard_backend
+    restart: always
+
     ports:
       - "5000:5000"
+
     volumes:
       - ./interface_times/api:/app
+
     environment:
-      - PYTHONUNBUFFERED=1
-    restart: unless-stopped
+      DATABASE_URL: postgresql://admin:123456@postgres:5432/dashboard_tcc
+
+    networks:
+      - nicol_default
+
+
+networks:
+  nicol_default:
+    external: true
