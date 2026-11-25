@@ -14,6 +14,7 @@ from escudos.cor import cor, bordaCor
 from tmp import classificacao_por_rodada
 from funcoes.confronto import confrontos
 from timemain import comparar_times
+from rotas_api.football_data import FootballDataError, get_current_season_data
 
 df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'campeonato-brasileiro-full.csv'))
 
@@ -354,6 +355,13 @@ def timemain_times():
 @app.route('/escudo/<int:id>')
 def get_escudo(id):
     return escudo(id)
+
+@app.route('/football-data/brasileirao', methods=['GET'])
+def get_brasileirao_atual():
+    try:
+        return jsonify(get_current_season_data())
+    except FootballDataError as error:
+        return jsonify({'erro': str(error)}), error.status_code
 
 @app.route('/pontuacao_temporada')
 def get_pontuacao_por_temporada():

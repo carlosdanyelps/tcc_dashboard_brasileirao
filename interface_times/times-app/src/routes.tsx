@@ -4,6 +4,7 @@ import Graphics from "./pages/Graphics/index";
 import Classification from "./pages/Classification/index";
 import PlayersCoaches from "./pages/PlayersCoaches/index";
 import HeadToHead from "./pages/HeadToHead/index";
+import CurrentSeason from "./pages/CurrentSeason/index";
 
 function MainRoutes() {
     return (
@@ -13,6 +14,7 @@ function MainRoutes() {
             <Route path="/classification" element={<Classification />} />
             <Route path="/players-coaches" element={<PlayersCoaches />} />
             <Route path="/head-to-head" element={<HeadToHead />} />
+            <Route path="/current-season" element={<CurrentSeason />} />
         </Routes>
     );
 }
