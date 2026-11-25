@@ -25,12 +25,6 @@ const Header = ({
           <li>
             <Link to="/classification">Classificação</Link>
           </li>
-          <li>
-            <Link to="/players-coaches">Jogadores e técnicos</Link>
-          </li>
-          <li>
-            <Link to="/head-to-head">Confrontos</Link>
-          </li>
         </ul>
       </nav>
     </header>
