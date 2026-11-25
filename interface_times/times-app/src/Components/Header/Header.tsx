@@ -33,6 +33,9 @@ const Header = ({
           <li>
             <Link to="/head-to-head">Confrontos</Link>
           </li>
+<<<<<<< HEAD
+>>>>>>> parent of 87020e5 (sla)
+=======
 >>>>>>> parent of 87020e5 (sla)
         </ul>
       </nav>

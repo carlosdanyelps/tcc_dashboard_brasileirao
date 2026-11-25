@@ -6,6 +6,9 @@ import Classification from "./pages/Classification/index";
 =======
 import PlayersCoaches from "./pages/PlayersCoaches/index";
 import HeadToHead from "./pages/HeadToHead/index";
+<<<<<<< HEAD
+>>>>>>> parent of 87020e5 (sla)
+=======
 >>>>>>> parent of 87020e5 (sla)
 
 function MainRoutes() {
@@ -18,6 +21,9 @@ function MainRoutes() {
 =======
             <Route path="/players-coaches" element={<PlayersCoaches />} />
             <Route path="/head-to-head" element={<HeadToHead />} />
+<<<<<<< HEAD
+>>>>>>> parent of 87020e5 (sla)
+=======
 >>>>>>> parent of 87020e5 (sla)
         </Routes>
     );
