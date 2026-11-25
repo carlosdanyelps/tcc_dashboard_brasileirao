@@ -31,9 +31,6 @@ const Header = ({
           <li>
             <Link to="/head-to-head">Confrontos</Link>
           </li>
-          <li>
-            <Link to="/current-season">Brasileirão atual</Link>
-          </li>
         </ul>
       </nav>
     </header>

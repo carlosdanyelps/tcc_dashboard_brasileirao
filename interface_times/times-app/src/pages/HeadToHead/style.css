@@ -63,26 +63,14 @@
 }
 
 .head-team-picker {
-  min-width: 0;
-  margin: 0;
-  padding: 14px 20px 18px;
-  border: 1px solid #e0e7e2;
-  border-radius: 10px;
-  background: #ffffff;
-}
-
-.head-team-picker legend {
-  padding: 0 6px;
-  color: #53645b;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.head-team-picker-controls {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 44px minmax(0, 1fr);
   align-items: end;
   gap: 16px;
+  padding: 18px 20px;
+  border: 1px solid #e0e7e2;
+  border-radius: 10px;
+  background: #ffffff;
 }
 
 .head-team-select {
@@ -136,15 +124,6 @@
   text-transform: uppercase;
 }
 
-.rivalry-title-row h2,
-.rivalry-period {
-  margin: 0;
-}
-
-.rivalry-title-row h2 {
-  font: inherit;
-}
-
 .rivalry-period {
   color: #819087;
   font-size: 11px;
@@ -189,17 +168,15 @@
   object-fit: contain;
 }
 
-.rivalry-team figcaption {
+.rivalry-team > strong {
   max-width: 100%;
   color: #23392e;
   font-size: clamp(13px, 1.5vw, 18px);
-  font-weight: 700;
 }
 
-.rivalry-team p {
-  margin: 0;
+.rivalry-team > span {
   color: #718078;
-  font-size: 13px;
+  font-size: 11px;
 }
 
 .rivalry-center {
@@ -213,14 +190,18 @@
   gap: 2px;
 }
 
-.match-count output {
+.match-count strong {
   color: #173d31;
   font-size: clamp(26px, 3vw, 38px);
   font-variant-numeric: tabular-nums;
-  font-weight: 700;
 }
 
-.match-count span {
+.match-count span,
+.wins-numbers span,
+.wins-captions,
+.goals-title,
+.goals-numbers span,
+.goals-captions {
   color: #66756c;
   font-size: 11px;
   font-weight: 800;
@@ -250,43 +231,43 @@
 }
 
 .wins-numbers,
-.goals-numbers {
+.wins-captions,
+.goals-numbers,
+.goals-captions {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   gap: 8px;
-  margin: 0;
 }
 
-.wins-numbers > div,
-.goals-numbers > div {
-  display: grid;
-  justify-items: center;
-  gap: 4px;
+.wins-numbers strong,
+.goals-numbers strong {
+  color: #173d31;
+  font-size: clamp(24px, 3vw, 36px);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
 }
 
-.wins-numbers dt,
-.goals-numbers dt {
+.wins-numbers span,
+.goals-numbers span {
+  font-size: 10px;
+}
+
+.wins-captions {
+  grid-template-columns: 1fr 1fr;
   color: #66756c;
-  font-size: 13px;
-  font-weight: 800;
+  font-size: 10px;
   line-height: 1.4;
 }
 
-.wins-numbers dd {
-  margin: 0;
-  color: #173d31;
-  font-size: clamp(32px, 3.6vw, 44px);
-  font-variant-numeric: tabular-nums;
-  line-height: 1;
+.wins-captions span:first-child,
+.goals-captions span:first-child {
+  text-align: left;
 }
 
-.goals-numbers dd {
-  margin: 0;
-  color: #173d31;
-  font-size: clamp(30px, 3.3vw, 40px);
-  font-variant-numeric: tabular-nums;
-  line-height: 1;
+.wins-captions span:last-child,
+.goals-captions span:last-child {
+  text-align: right;
 }
 
 .goals-summary {
@@ -298,7 +279,6 @@
 }
 
 .goals-title {
-  margin: 0;
   color: #173d31;
   font-size: 13px;
 }
@@ -309,6 +289,24 @@
 
 .goals-numbers {
   grid-template-columns: 1fr minmax(160px, 2fr) 1fr;
+}
+
+.goals-numbers strong {
+  text-align: left;
+}
+
+.goals-numbers strong:last-child {
+  text-align: right;
+}
+
+.goals-numbers span {
+  line-height: 1.5;
+}
+
+.goals-captions {
+  grid-template-columns: 1fr 1fr;
+  color: #66756c;
+  font-size: 10px;
 }
 
 .match-history {
@@ -340,7 +338,7 @@
   gap: 10px;
 }
 
-.match-history-actions > output {
+.match-history-actions > span {
   padding: 6px 9px;
   border-radius: 999px;
   background: #edf5f0;
@@ -396,16 +394,6 @@
   border-collapse: collapse;
   font-variant-numeric: tabular-nums;
   text-align: left;
-}
-
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  clip-path: inset(50%);
 }
 
 .match-table th {
@@ -471,12 +459,9 @@
   }
 
   .head-team-picker {
-    padding: 10px 10px 14px;
-  }
-
-  .head-team-picker-controls {
     grid-template-columns: minmax(0, 1fr) 40px minmax(0, 1fr);
     gap: 8px;
+    padding: 14px 10px;
   }
 
   .head-team-select select {
@@ -505,19 +490,21 @@
     font-size: 21px;
   }
 
-  .rivalry-team figcaption {
+  .rivalry-team > strong {
     overflow-wrap: anywhere;
     font-size: 11px;
   }
 
-  .rivalry-team p {
-    font-size: 11px;
+  .rivalry-team > span,
+  .wins-captions,
+  .goals-captions {
+    font-size: 9px;
   }
 
   .match-count span,
-  .wins-numbers dt,
-  .goals-numbers dt {
-    font-size: 10px;
+  .wins-numbers span,
+  .goals-numbers span {
+    font-size: 8px;
   }
 
   .wins-bar,
@@ -525,12 +512,9 @@
     height: 20px;
   }
 
-  .wins-numbers dd {
-    font-size: 30px;
-  }
-
-  .goals-numbers dd {
-    font-size: 28px;
+  .wins-numbers strong,
+  .goals-numbers strong {
+    font-size: 23px;
   }
 
   .goals-numbers {
@@ -566,7 +550,11 @@
     font-size: 17px;
   }
 
-  .rivalry-team figcaption {
+  .rivalry-team > strong {
     font-size: 10px;
+  }
+
+  .wins-captions {
+    font-size: 8px;
   }
 }

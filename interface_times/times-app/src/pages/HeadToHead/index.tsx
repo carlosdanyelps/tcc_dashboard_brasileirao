@@ -273,10 +273,10 @@ const HeadToHead = () => {
   );
 
   return (
-    <div className="head-to-head-page">
+    <main className="head-to-head-page">
       <Header />
-      <main className="head-to-head-content">
-        <header className="head-to-head-heading">
+      <div className="head-to-head-content">
+        <section className="head-to-head-heading">
           <div>
             <span className="head-to-head-eyebrow">Brasileirão • retrospecto completo</span>
             <h1>Confronto direto</h1>
@@ -286,7 +286,7 @@ const HeadToHead = () => {
             </p>
           </div>
           <label className="head-season-filter">
-            Recorte de temporada
+            <span>Recorte de temporada</span>
             <select
               value={season}
               onChange={(event) => setSeason(event.target.value)}
@@ -301,54 +301,51 @@ const HeadToHead = () => {
               ))}
             </select>
           </label>
-        </header>
+        </section>
 
-        <fieldset className="head-team-picker">
-          <legend>Times do confronto</legend>
-          <div className="head-team-picker-controls">
-            <label className="head-team-select">
-              Time 1
-              <select
-                value={team1}
-                onChange={(event) => setTeam1(event.target.value)}
-                disabled={loadingOptions || !options}
-              >
-                {options?.times.map((team) => (
-                  <option key={team} value={team} disabled={team === team2}>
-                    {team}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <button
-              type="button"
-              className="swap-teams"
-              aria-label="Inverter os times"
-              title="Inverter os times"
-              onClick={() => {
-                setTeam1(team2);
-                setTeam2(team1);
-              }}
-              disabled={!team1 || !team2}
+        <section className="head-team-picker" aria-label="Times do confronto">
+          <label className="head-team-select">
+            <span>Time 1</span>
+            <select
+              value={team1}
+              onChange={(event) => setTeam1(event.target.value)}
+              disabled={loadingOptions || !options}
             >
-              ⇄
-            </button>
-            <label className="head-team-select">
-              Time 2
-              <select
-                value={team2}
-                onChange={(event) => setTeam2(event.target.value)}
-                disabled={loadingOptions || !options}
-              >
-                {options?.times.map((team) => (
-                  <option key={team} value={team} disabled={team === team1}>
-                    {team}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
-        </fieldset>
+              {options?.times.map((team) => (
+                <option key={team} value={team} disabled={team === team2}>
+                  {team}
+                </option>
+              ))}
+            </select>
+          </label>
+          <button
+            type="button"
+            className="swap-teams"
+            aria-label="Inverter os times"
+            title="Inverter os times"
+            onClick={() => {
+              setTeam1(team2);
+              setTeam2(team1);
+            }}
+            disabled={!team1 || !team2}
+          >
+            ⇄
+          </button>
+          <label className="head-team-select">
+            <span>Time 2</span>
+            <select
+              value={team2}
+              onChange={(event) => setTeam2(event.target.value)}
+              disabled={loadingOptions || !options}
+            >
+              {options?.times.map((team) => (
+                <option key={team} value={team} disabled={team === team1}>
+                  {team}
+                </option>
+              ))}
+            </select>
+          </label>
+        </section>
 
         {(optionsError || error || teamsError) && (
           <p className="head-to-head-error" role="alert">
@@ -356,30 +353,30 @@ const HeadToHead = () => {
           </p>
         )}
 
-        <section className="rivalry-panel" aria-labelledby="rivalry-heading">
-          <header className="rivalry-title-row">
-            <h2 id="rivalry-heading">Histórico de confrontos</h2>
-            <p className="rivalry-period">
+        <section className="rivalry-panel">
+          <div className="rivalry-title-row">
+            <span>Histórico de confrontos</span>
+            <span className="rivalry-period">
               {season === "all" ? "Todas as temporadas" : `Temporada ${season}`}
-            </p>
-          </header>
+            </span>
+          </div>
 
           <div className="rivalry-scoreboard">
-            <figure className="rivalry-team">
+            <div className="rivalry-team">
               <TeamBadge
                 team={team1}
                 summary={summary1}
                 fallback={{ color: "rgba(113, 92, 6, 0.6)", border: "#dfc243" }}
               />
-              <figcaption>{team1 || "Selecione um time"}</figcaption>
-              <p>{data?.resumo.vitorias_time1 ?? 0} vitórias</p>
-            </figure>
+              <strong>{team1 || "Selecione um time"}</strong>
+              <span>{data?.resumo.vitorias_time1 ?? 0} vitórias</span>
+            </div>
 
             <div className="rivalry-center">
               <div className="match-count">
-                <output>
+                <strong>
                   {loading ? "…" : data?.resumo.partidas.toLocaleString("pt-BR") ?? "—"}
-                </output>
+                </strong>
                 <span>PARTIDAS DISPUTADAS</span>
               </div>
               <div
@@ -390,37 +387,32 @@ const HeadToHead = () => {
                 <span style={{ width: `${win1Share}%`, backgroundColor: summary1?.cor }} />
                 <span style={{ width: `${win2Share}%`, backgroundColor: summary2?.cor }} />
               </div>
-              <dl className="wins-numbers">
-                <div>
-                  <dt style={{ color: summary1?.bordaCor }}>Vitórias do {team1}</dt>
-                  <dd>{data?.resumo.vitorias_time1 ?? 0}</dd>
-                </div>
-                <div>
-                  <dt>Empates</dt>
-                  <dd>{data?.resumo.empates ?? 0}</dd>
-                </div>
-                <div>
-                  <dt style={{ color: summary2?.bordaCor }}>Vitórias do {team2}</dt>
-                  <dd>{data?.resumo.vitorias_time2 ?? 0}</dd>
-                </div>
-              </dl>
+              <div className="wins-numbers">
+                <strong style={{ color: summary1?.bordaCor }}>{data?.resumo.vitorias_time1 ?? 0}</strong>
+                <span>{data?.resumo.empates ?? 0} EMPATES</span>
+                <strong style={{ color: summary2?.bordaCor }}>{data?.resumo.vitorias_time2 ?? 0}</strong>
+              </div>
+              <div className="wins-captions">
+                <span style={{ color: summary1?.bordaCor }}>VITÓRIAS DO {team1}</span>
+                <span style={{ color: summary2?.bordaCor }}>VITÓRIAS DO {team2}</span>
+              </div>
             </div>
 
-            <figure className="rivalry-team">
+            <div className="rivalry-team">
               <TeamBadge
                 team={team2}
                 summary={summary2}
                 fallback={{ color: "rgba(38, 67, 51, 0.6)", border: "#789082" }}
               />
-              <figcaption>{team2 || "Selecione um time"}</figcaption>
-              <p>{data?.resumo.vitorias_time2 ?? 0} vitórias</p>
-            </figure>
+              <strong>{team2 || "Selecione um time"}</strong>
+              <span>{data?.resumo.vitorias_time2 ?? 0} vitórias</span>
+            </div>
           </div>
 
           <div className="goals-summary">
-            <h3 className="goals-title">
-              {data?.resumo.total_gols.toLocaleString("pt-BR") ?? 0} GOLS NO CONFRONTO
-            </h3>
+            <div className="goals-title">
+              <span>{data?.resumo.total_gols.toLocaleString("pt-BR") ?? 0} GOLS NO CONFRONTO</span>
+            </div>
             <div
               className="goals-bar"
               role="img"
@@ -429,44 +421,38 @@ const HeadToHead = () => {
               <span style={{ width: `${goal1Share}%`, backgroundColor: summary1?.cor }} />
               <span style={{ width: `${goal2Share}%`, backgroundColor: summary2?.cor }} />
             </div>
-            <dl className="goals-numbers">
-              <div>
-                <dt>Gols do {team1}</dt>
-                <dd style={{ color: summary1?.bordaCor }}>{data?.resumo.gols_time1 ?? 0}</dd>
-              </div>
-              <div>
-                <dt>Média de gols por partida</dt>
-                <dd>{data?.resumo.media_gols.toLocaleString("pt-BR") ?? "0,00"}</dd>
-              </div>
-              <div>
-                <dt>Gols do {team2}</dt>
-                <dd style={{ color: summary2?.bordaCor }}>{data?.resumo.gols_time2 ?? 0}</dd>
-              </div>
-            </dl>
+            <div className="goals-numbers">
+              <strong style={{ color: summary1?.bordaCor }}>{data?.resumo.gols_time1 ?? 0}</strong>
+              <span>
+                MÉDIA DE {data?.resumo.media_gols.toLocaleString("pt-BR") ?? "0,00"} GOLS POR PARTIDA
+              </span>
+              <strong style={{ color: summary2?.bordaCor }}>{data?.resumo.gols_time2 ?? 0}</strong>
+            </div>
+            <div className="goals-captions">
+              <span style={{ color: summary1?.bordaCor }}>GOLS DO {team1}</span>
+              <span style={{ color: summary2?.bordaCor }}>GOLS DO {team2}</span>
+            </div>
           </div>
         </section>
 
-        <section className="match-history" aria-labelledby="match-history-heading">
+        <section className="match-history">
           <header className="match-history-header">
             <div>
               <span className="head-to-head-eyebrow">Placar a placar</span>
-              <h2 id="match-history-heading">Histórico de partidas</h2>
+              <h2>Histórico de partidas</h2>
             </div>
             <div className="match-history-actions">
-              <output aria-live="polite">
-                {data?.partidas_detalhadas.length ?? 0} jogos
-              </output>
+              <span>{data?.partidas_detalhadas.length ?? 0} jogos</span>
               {data && data.partidas_detalhadas.length > 5 && (
                 <button
                   type="button"
                   className="match-history-toggle"
                   aria-expanded={historyExpanded}
-                  aria-controls="match-table-container"
                   onClick={() => setHistoryExpanded((expanded) => !expanded)}
                 >
                   {historyExpanded ? "Mostrar menos" : "Ver todos"}
                   <span className={historyExpanded ? "expanded" : ""} aria-hidden="true">
-                    ↓
+                    ⌄
                   </span>
                 </button>
               )}
@@ -476,23 +462,20 @@ const HeadToHead = () => {
           {loadingOptions || loading ? (
             <p className="match-history-empty">Carregando confrontos...</p>
           ) : visibleMatches.length ? (
-            <div className="match-table-wrap" id="match-table-container">
+            <div className="match-table-wrap">
               {!historyExpanded && remainingMatches > 0 && (
                 <p className="match-history-note">
                   Exibindo os 5 confrontos mais recentes de {data?.partidas_detalhadas.length} partidas.
                 </p>
               )}
               <table className="match-table">
-                <caption className="visually-hidden">
-                  Resultados dos confrontos entre {team1} e {team2}
-                </caption>
                 <thead>
                   <tr>
-                    <th scope="col">Temporada</th>
-                    <th scope="col">Data / rodada</th>
-                    <th scope="col">Mandante</th>
-                    <th scope="col">Placar</th>
-                    <th scope="col">Visitante</th>
+                    <th>Temporada</th>
+                    <th>Data / rodada</th>
+                    <th>Mandante</th>
+                    <th>Placar</th>
+                    <th>Visitante</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -502,7 +485,7 @@ const HeadToHead = () => {
                     >
                       <td>{match.temporada}</td>
                       <td>
-                        <time dateTime={match.data}>{displayDate(match.data)}</time>
+                        {displayDate(match.data)}
                         {match.rodada ? ` • ${match.rodada}ª rodada` : ""}
                       </td>
                       <td
@@ -537,8 +520,8 @@ const HeadToHead = () => {
             </p>
           )}
         </section>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 };
 
