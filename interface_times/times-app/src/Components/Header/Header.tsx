@@ -25,6 +25,15 @@ const Header = ({
           <li>
             <Link to="/classification">Classificação</Link>
           </li>
+<<<<<<< HEAD
+=======
+          <li>
+            <Link to="/players-coaches">Jogadores e técnicos</Link>
+          </li>
+          <li>
+            <Link to="/head-to-head">Confrontos</Link>
+          </li>
+>>>>>>> parent of 87020e5 (sla)
         </ul>
       </nav>
     </header>
